@@ -24,10 +24,11 @@ export async function validateApplication(
 				: {}),
 		});
 
-		const json = await result.text();
+		const text = await result.text();
+
 		if (
 			result.status !== datum.response.statusCode ||
-			json !== datum.response.body
+			!Bun.deepEquals(JSON.parse(text), JSON.parse(datum.response.body))
 		) {
 			errs.push({
 				requestNumber: i,
@@ -35,7 +36,7 @@ export async function validateApplication(
 				expectedResponse: datum.response,
 				actualResponse: {
 					statusCode: result.status,
-					body: json,
+					body: text,
 				},
 			});
 			break;

@@ -6,12 +6,12 @@ export const validTodo1 = {
 		{
 			method: "get",
 			url: "/todos",
-			fn: "async () => globalObject.todos",
+			fn: "async () => {return new Response(JSON.stringify(globalObject.todos), { status: 200 });}",
 		},
 		{
 			method: "post",
 			url: "/todos",
-			fn: "async ({ body }) => { console.log('app',body); const todo = body; if (typeof todo.title !== 'string' || typeof todo.completed !== 'boolean') { return { statusCode: 400, error: 'Validation error' }; } todo.id = Math.random().toString(36).substring(2, 15); globalObject.todos.push(todo); return todo; }",
+			fn: "async ({ body }) => { const newTodo = {...body}; newTodo.id=generateRandomString(8); globalObject.todos.push(newTodo); return new Response(JSON.stringify(newTodo), { status: 201 }); }",
 		},
 	],
 } satisfies RouteSchema;

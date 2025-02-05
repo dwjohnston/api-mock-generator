@@ -17,8 +17,8 @@ export const getPostGet = [
 			body: '{\n    "title": "foo", \n    "completed": false\n}',
 		},
 		response: {
-			statusCode: 200,
-			body: '{"id":"RLfZkYOM9i_S5I8uCna2w","title":"foo","completed":false}',
+			statusCode: 201,
+			body: '{"id":"abcd1234","title":"foo","completed":false}',
 		},
 	},
 	{
@@ -29,7 +29,7 @@ export const getPostGet = [
 		},
 		response: {
 			statusCode: 200,
-			body: '[{"id":"RLfZkYOM9i_S5I8uCna2w","title":"foo","completed":false}]',
+			body: '[{"id":"abcd1234","title":"foo","completed":false}]',
 		},
 	},
 ];

@@ -1,82 +1,71 @@
-import { error } from "elysia";
 import type { ErrorType, RecordedApiRequests } from "..";
+
+import { getPostGet } from "./testFixtures/recordedApis/todos/1_getPostGet";
+import { validTodo1 } from "./testFixtures/programs/validTodo1";
+
+function strForAi(value: unknown): string {
+	return `
+\`\`\`
+${JSON.stringify(value, null, 2)}
+\`\`\`  
+`;
+}
 
 export const prompts = {
 	basePrompt: (data: RecordedApiRequests): string => `
-    Here is an example series of API requests and responses: 
 
-    [
-      {
-        request: {
-          method: "POST",
-          body: "{\n    \"title\": \"111\", \n    \"completed\": false\n    \n}",
-        },
-        response: {
-          statusCode: 200,
-          body: "{\"id\":\"udCQnHwiIdHFSQceYXOEy\",\"title\":\"111\",\"completed\":false}",
-        },
-      }, {
-        request: {
-          method: "POST",
-          body: "{\n    \"title\": \"111\", \n    \"completed\": false\n    \n}",
-        },
-        response: {
-          statusCode: 200,
-          body: "{\"id\":\"2qlhb6nGFlwxe_Up39L4a\",\"title\":\"111\",\"completed\":false}",
-        },
-      }, {
-        request: {
-          method: "POST",
-          body: "{\n    \"title\": \"111\", \n    \"completed\": false\n    \n}",
-        },
-        response: {
-          statusCode: 200,
-          body: "{\"id\":\"oU5m9RsGe62_Uy_u_kz9s\",\"title\":\"111\",\"completed\":false}",
-        },
-      }, {
-        request: {
-          method: "GET",
-          body: "",
-        },
-        response: {
-          statusCode: 200,
-          body: "[{\"id\":\"XBXHDsqbwSlM8iYIgACtI\",\"title\":\"aaaa\",\"completed\":false},{\"id\":\"zwb78OllrtKv4qfJ6g36w\",\"title\":\"111\",\"completed\":false},{\"id\":\"CwdE5EHVcU_JFBGmnGcdj\",\"title\":\"111\",\"completed\":false},{\"id\":\"JmrqOOl10W36ByRIM1RHa\",\"title\":\"111\",\"completed\":false},{\"id\":\"Pzb3morymQO-2RxzquWCH\",\"title\":\"111\",\"completed\":false},{\"id\":\"2xAaidE8hdXld6qBLsj5D\",\"title\":\"111\",\"completed\":false},{\"id\":\"udCQnHwiIdHFSQceYXOEy\",\"title\":\"111\",\"completed\":false},{\"id\":\"2qlhb6nGFlwxe_Up39L4a\",\"title\":\"111\",\"completed\":false},{\"id\":\"oU5m9RsGe62_Uy_u_kz9s\",\"title\":\"111\",\"completed\":false}]",
-        },
-      },
-      {
-        request: {
-          method: "GET",
-          body: "",
-        },
-        response: {
-          statusCode: 200,
-          body: "[{\"id\":\"XBXHDsqbwSlM8iYIgACtI\",\"title\":\"aaaa\",\"completed\":false},{\"id\":\"zwb78OllrtKv4qfJ6g36w\",\"title\":\"111\",\"completed\":false},{\"id\":\"CwdE5EHVcU_JFBGmnGcdj\",\"title\":\"111\",\"completed\":false},{\"id\":\"JmrqOOl10W36ByRIM1RHa\",\"title\":\"111\",\"completed\":false},{\"id\":\"Pzb3morymQO-2RxzquWCH\",\"title\":\"111\",\"completed\":false},{\"id\":\"2xAaidE8hdXld6qBLsj5D\",\"title\":\"111\",\"completed\":false},{\"id\":\"udCQnHwiIdHFSQceYXOEy\",\"title\":\"111\",\"completed\":false},{\"id\":\"2qlhb6nGFlwxe_Up39L4a\",\"title\":\"111\",\"completed\":false},{\"id\":\"oU5m9RsGe62_Uy_u_kz9s\",\"title\":\"111\",\"completed\":false}]",
-        },
-      }
-    ]
-    
-    
-    A good object response would look like this: 
-    
-    { 
-        setup: () => {
-            globalObject.todos = [];
-          },
-          routes: [
-            {
-              method: "post",
-              url: "/todos",
-              fn: "async ({ body }) => { const todo = JSON.parse(body);\n todo.id = Math.random().toString(36).substring(2, 15);\nglobalObject.todos.push(todo);\nreturn todo;\n"                      },
-            },
-            {
-              method: "get",
-              url: "/todos",
-              fn: "async () => globalObject.todos"
-            }
-          ],
-    }, 
+## Task Brief 
 
-    The actual data to generate code for is as follows: 
+You will be provided a list of API requests and their responses. 
+Your task is to provide Elysia API handlers that will reproduce the functionality in the general case. 
+
+Do not implement any non-deterministic functionality. 
+The following functions will be available to you: 
+
+\`\`\`
+generateRandomNumber(min?: number, max?: number, step?: number) : number;
+generateRandomString(length?: number, availableChars?: string): string; 
+getCurrentDate(): Date; 
+\`\`\`
+
+As well as an empty object called \`globalObject\`.
+
+
+Your returned object will be used in the a code block like follows: 
+\`\`\`
+const app = new Elysia();
+
+let resultFromAi; //<-- The object you are providing
+
+let globalObject = {};
+const { generateRandomNumber, generateRandomString, getCurrentDate } =
+  externalFunctions;
+
+eval(resultFromAi.setup);
+
+resultFromAi.routes.reduce((acc, cur) => {
+  app[cur.method](cur.url, eval(cur.fn));
+  return app;
+}, app);
+
+app.listen(port, () => {
+});
+\`\`\`
+
+
+## Examples 
+
+### Scenario 1 - A simple todo app
+
+Input data:
+
+${strForAi(getPostGet)}
+
+A good output: 
+
+${strForAi(validTodo1)};
+
+## Actual data
 
 \`\`\`
 ${JSON.stringify(data, null, 2)}
