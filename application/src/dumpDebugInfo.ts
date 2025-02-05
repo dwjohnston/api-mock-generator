@@ -3,7 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { format } from "date-fns";
 import path from "node:path";
 
-import type { ConversationHistory, ErrorType, RecordedApiRequests } from "..";
+import type { ConversationHistory, ErrorType, RecordedApiRequests } from ".";
 
 export async function dumpDebugInfo(
 	data: RecordedApiRequests,
@@ -49,7 +49,6 @@ export async function dumpDebugInfo(
 
 						//TODO I want a better way to extract the structured errors, for ease of printing in the logs
 						const split = v.content.split("```");
-						console.log(split);
 						if (split.length === 3) {
 							content = split[1];
 						}

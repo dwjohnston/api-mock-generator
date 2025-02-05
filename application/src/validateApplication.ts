@@ -1,4 +1,4 @@
-import type { ErrorType, RecordedApiRequests } from "..";
+import type { ErrorType, RecordedApiRequests } from ".";
 
 export async function validateApplication(
 	recordedData: RecordedApiRequests,
@@ -8,10 +8,6 @@ export async function validateApplication(
 	for (let i = 0; i < recordedData.length; i++) {
 		const datum = recordedData[i];
 
-		console.log({
-			method: datum.request.method,
-			body: JSON.stringify(datum.request.body),
-		});
 		const result = await fetch(`${url}/${datum.request.url}`, {
 			method: datum.request.method,
 			...(datum.request.method?.toUpperCase() !== "GET"

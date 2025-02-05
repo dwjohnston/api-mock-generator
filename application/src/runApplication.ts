@@ -26,6 +26,7 @@ const defaultExternalFunctions = {
 	},
 };
 
+export type ExternalFunctions = typeof defaultExternalFunctions;
 /**
  *
  * @param routeSchema

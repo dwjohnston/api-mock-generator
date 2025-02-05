@@ -4,14 +4,15 @@ import { HttpsProxyAgent } from "https-proxy-agent";
 import { stdin } from "node:process";
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
-import { prompts } from "./src/prompts";
-import { routeSchema, type RouteSchema } from "./src/routeSchema";
+import { prompts } from "./prompts";
+import { routeSchema, type RouteSchema } from "./routeSchema";
 import { mkdir, writeFile } from "node:fs/promises";
 import { format } from "date-fns";
 import path from "node:path";
-import { dumpDebugInfo } from "./src/dumpDebugInfo";
-import { runApplication } from "./src/runApplication";
-import { validateApplication } from "./src/validateApplication";
+import { dumpDebugInfo } from "./dumpDebugInfo";
+import { runApplication } from "./runApplication";
+import { validateApplication } from "./validateApplication";
+import { createExternalFunctions } from "./createExternalFunctions";
 
 async function prompt(message: string) {
 	return new Promise((resolve) => {
@@ -30,7 +31,6 @@ export type RecordedApiRequests = Array<{
 		body?: string;
 	};
 }>;
-const data = [] as RecordedApiRequests;
 
 async function main() {
 	//   console.clear();
@@ -39,9 +39,17 @@ async function main() {
 	console.log("Recording started...");
 	const close = record();
 	await prompt("Press Enter to switch to replay mode...");
+	const data = close();
 
 	console.log("Switched to replay mode.");
-	replay();
+	const result = await replay(data);
+
+	await dumpDebugInfo(
+		result.data,
+		result.program,
+		result.conversationHistory,
+		result.errors,
+	);
 }
 
 function record() {
@@ -50,6 +58,7 @@ function record() {
 		changeOrigin: true,
 	});
 	const requestMap = new Map();
+	const data = [] as RecordedApiRequests;
 
 	proxy.on("proxyReq", (proxyReq, req, res) => {
 		let body = "";
@@ -86,7 +95,9 @@ function record() {
 	});
 
 	const server = createServer((req, res) => {
-		proxy.web(req, res, (err) => {
+		//@ts-expect-error
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		proxy.web(req, res, (err: any) => {
 			console.error("Proxy error:", err);
 			res.writeHead(500, { "Content-Type": "text/plain" });
 			res.end("Proxy error occurred");
@@ -99,6 +110,7 @@ function record() {
 
 	return () => {
 		server.close();
+		return data;
 	};
 }
 
@@ -108,7 +120,7 @@ export type ConversationHistory =
 const aiName = "openai";
 const VALIDATION_PORT = 3002;
 
-const maxIterations = 5;
+const maxIterations = 1;
 
 export type ErrorType = {
 	requestNumber: number;
@@ -120,52 +132,58 @@ export type ErrorType = {
 	};
 };
 
-async function validateResponse(
-	response: string,
-	iterationNumber: number,
-): Promise<
-	| {
-			isValid: true;
-			program: RouteSchema;
-	  }
-	| {
-			isValid: false;
-			errors: Array<ErrorType>;
-			program: RouteSchema;
-	  }
-> {
-	return new Promise((res, rej) => {
-		const openAiResponse = routeSchema.parse(JSON.parse(response));
-		runApplication(openAiResponse, VALIDATION_PORT, async (app) => {
-			console.log(
-				`Running validation application on port: ${VALIDATION_PORT} for iteration #${iterationNumber}`,
-			);
-
-			const errs = await validateApplication(
-				data,
-				`http://localhost:${VALIDATION_PORT}`,
-			);
-
-			app.stop(true);
-
-			if (errs.length > 0) {
-				console.log("Encountered errs:", errs);
-				res({
-					isValid: false,
-					errors: errs,
-					program: openAiResponse,
-				});
-			}
-
-			res({
-				isValid: true,
-				program: openAiResponse,
-			});
-		});
-	});
-}
-
 function createIterate(openai: OpenAI, data: RecordedApiRequests) {
+	async function validateResponse(
+		response: string,
+		iterationNumber: number,
+	): Promise<
+		| {
+				isValid: true;
+				program: RouteSchema;
+		  }
+		| {
+				isValid: false;
+				errors: Array<ErrorType>;
+				program: RouteSchema;
+		  }
+	> {
+		return new Promise((res, rej) => {
+			const openAiResponse = routeSchema.parse(JSON.parse(response));
+			const externalFunctions = createExternalFunctions(data);
+
+			runApplication(
+				openAiResponse,
+				VALIDATION_PORT,
+				async (app) => {
+					console.log(
+						`Running validation application on port: ${VALIDATION_PORT} for iteration #${iterationNumber}`,
+					);
+
+					const errs = await validateApplication(
+						data,
+						`http://localhost:${VALIDATION_PORT}`,
+					);
+
+					app.stop(true);
+
+					if (errs.length > 0) {
+						res({
+							isValid: false,
+							errors: errs,
+							program: openAiResponse,
+						});
+					}
+
+					res({
+						isValid: true,
+						program: openAiResponse,
+					});
+				},
+				externalFunctions,
+			);
+		});
+	}
+
 	return async function iterate(
 		conversationHistory: ConversationHistory,
 	): Promise<
@@ -216,7 +234,7 @@ function createIterate(openai: OpenAI, data: RecordedApiRequests) {
 			};
 		}
 
-		if (conversationHistory.length < maxIterations) {
+		if (conversationHistory.length < maxIterations * 2) {
 			conversationHistory.push({
 				role: "developer" as const,
 				content: prompts.errorFeedbackPrompt(result.errors),
@@ -233,7 +251,7 @@ function createIterate(openai: OpenAI, data: RecordedApiRequests) {
 	};
 }
 
-async function replay() {
+export async function replay(data: RecordedApiRequests) {
 	const conversationHistory = [];
 
 	const openai = new OpenAI();
@@ -258,17 +276,23 @@ Application passed validation.
 ❌ Failure!
 `);
 	}
+	const externalFunctions = createExternalFunctions(data);
 
-	await dumpDebugInfo(
-		data,
+	runApplication(
 		result.program,
-		result.conversationHistory,
-		result.success ? null : result.errors,
+		VALIDATION_PORT,
+		() => {
+			console.log(`Running final application on port: ${VALIDATION_PORT}`);
+		},
+		externalFunctions,
 	);
 
-	runApplication(result.program, VALIDATION_PORT, () => {
-		console.log(`Running final application on port: ${VALIDATION_PORT}`);
-	});
+	return {
+		data,
+		program: result.program,
+		conversationHistory: result.conversationHistory,
+		errors: result.success ? null : result.errors,
+	};
 }
 
 main();

@@ -1,4 +1,4 @@
-import type { ErrorType, RecordedApiRequests } from "..";
+import type { ErrorType, RecordedApiRequests } from ".";
 
 import { getPostGet } from "./testFixtures/recordedApis/todos/1_getPostGet";
 import { validTodo1 } from "./testFixtures/programs/validTodo1";
