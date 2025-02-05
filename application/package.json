@@ -1,0 +1,20 @@
+{
+  "name": "application",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/http-proxy": "^1.17.15"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "elysia": "^1.2.11",
+    "http-proxy": "^1.18.1",
+    "https-proxy-agent": "^7.0.6",
+    "openai": "^4.82.0",
+    "zod": "^3.24.1"
+  }
+}
