@@ -13,6 +13,16 @@ import { dumpDebugInfo } from "./dumpDebugInfo";
 import { runApplication } from "./runApplication";
 import { validateApplication } from "./validateApplication";
 import { createExternalFunctions } from "./createExternalFunctions";
+const args = process.argv;
+
+let target: string;
+const targetArg = args.find((arg) => arg.startsWith("--target="));
+
+if (targetArg) {
+	target = targetArg.split("=")[1];
+} else {
+	target = "http://localhost:3000";
+}
 
 async function prompt(message: string) {
 	return new Promise((resolve) => {
@@ -33,28 +43,31 @@ export type RecordedApiRequests = Array<{
 }>;
 
 async function main() {
-	//   console.clear();
-	await prompt("Press Enter to start recording...");
+	try {
+		//   console.clear();
+		await prompt("Press Enter to start recording...");
 
-	console.log("Recording started...");
-	const close = record();
-	await prompt("Press Enter to switch to replay mode...");
-	const data = close();
+		console.log("Recording started...");
+		const close = record();
+		await prompt("Press Enter to switch to replay mode...");
+		const data = close();
 
-	console.log("Switched to replay mode.");
-	const result = await replay(data);
+		console.log("Switched to replay mode.");
+		const result = await replay(data);
 
-	await dumpDebugInfo(
-		result.data,
-		result.program,
-		result.conversationHistory,
-		result.errors,
-	);
+		await dumpDebugInfo(result);
+	} catch (err) {
+		if (err instanceof Error) {
+			dumpDebugInfo(err);
+		} else {
+			dumpDebugInfo(new Error(`Unknown error type: ${err}`));
+		}
+	}
 }
 
 function record() {
 	const proxy = httpProxy.createProxyServer({
-		target: "http://localhost:3000",
+		target,
 		changeOrigin: true,
 	});
 	const requestMap = new Map();
@@ -151,33 +164,39 @@ function createIterate(openai: OpenAI, data: RecordedApiRequests) {
 			const openAiResponse = routeSchema.parse(JSON.parse(response));
 			const externalFunctions = createExternalFunctions(data);
 
+			console.log(openAiResponse);
+
 			runApplication(
 				openAiResponse,
 				VALIDATION_PORT,
 				async (app) => {
-					console.log(
-						`Running validation application on port: ${VALIDATION_PORT} for iteration #${iterationNumber}`,
-					);
+					try {
+						console.log(
+							`Running validation application on port: ${VALIDATION_PORT} for iteration #${iterationNumber}`,
+						);
 
-					const errs = await validateApplication(
-						data,
-						`http://localhost:${VALIDATION_PORT}`,
-					);
+						const errs = await validateApplication(
+							data,
+							`http://localhost:${VALIDATION_PORT}`,
+						);
 
-					app.stop(true);
+						app.stop(true);
 
-					if (errs.length > 0) {
+						if (errs.length > 0) {
+							res({
+								isValid: false,
+								errors: errs,
+								program: openAiResponse,
+							});
+						}
+
 						res({
-							isValid: false,
-							errors: errs,
+							isValid: true,
 							program: openAiResponse,
 						});
+					} catch (err) {
+						rej(err);
 					}
-
-					res({
-						isValid: true,
-						program: openAiResponse,
-					});
 				},
 				externalFunctions,
 			);

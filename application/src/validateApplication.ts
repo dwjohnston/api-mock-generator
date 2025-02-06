@@ -22,9 +22,23 @@ export async function validateApplication(
 
 		const text = await result.text();
 
+		let expectedJson;
+		let actualJson;
+
+		try {
+			expectedJson = JSON.parse(datum.response.body);
+		} catch {
+			expectedJson = null;
+		}
+		try {
+			actualJson = JSON.parse(text);
+		} catch {
+			actualJson = null;
+		}
+
 		if (
 			result.status !== datum.response.statusCode ||
-			!Bun.deepEquals(JSON.parse(text), JSON.parse(datum.response.body))
+			!Bun.deepEquals(expectedJson, actualJson)
 		) {
 			errs.push({
 				requestNumber: i,
