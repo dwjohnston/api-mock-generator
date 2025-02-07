@@ -7,6 +7,7 @@ export function createExternalFunctions(
 	const stringIds = new Set<string>();
 	const numberIds = new Set<number>();
 
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	function extractIds(obj: any) {
 		if (typeof obj !== "object" || obj === null) return;
 

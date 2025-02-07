@@ -8,5 +8,9 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "harproxyserver": "^0.0.20",
+    "http-proxy-middleware": "^3.0.3"
   }
 }

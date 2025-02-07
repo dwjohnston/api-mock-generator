@@ -1,0 +1,59 @@
+{
+  "log": {
+    "version": "1.2",
+    "creator": {
+      "name": "ProxyServer",
+      "version": "1.0"
+    },
+    "entries": [
+      {
+        "startedDateTime": "2025-02-07T06:40:47.701Z",
+        "cache": {},
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:3000/todos",
+          "httpVersion": "HTTP/1.1",
+          "cookies": [],
+          "headers": [],
+          "queryString": [],
+          "headersSize": -1,
+          "bodySize": -1
+        },
+        "response": {
+          "status": 201,
+          "statusText": "",
+          "httpVersion": "HTTP/1.1",
+          "cookies": [],
+          "headers": [
+            {
+              "name": "content-type",
+              "value": "text/plain;charset=utf-8"
+            },
+            {
+              "name": "date",
+              "value": "Fri, 07 Feb 2025 06:40:47 GMT"
+            },
+            {
+              "name": "content-length",
+              "value": "62"
+            }
+          ],
+          "content": {
+            "size": 62,
+            "text": "{\"id\":\"XsX8HoUcqhTiHNKwk7Nl4\",\"title\":\"foo\",\"completed\":false}",
+            "mimeType": "text/plain;charset=utf-8"
+          },
+          "redirectURL": "",
+          "headersSize": -1,
+          "bodySize": -1
+        },
+        "time": 3,
+        "timings": {
+          "send": 0,
+          "wait": 0,
+          "receive": 3
+        }
+      }
+    ]
+  }
+}

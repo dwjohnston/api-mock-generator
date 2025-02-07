@@ -5,6 +5,13 @@ import path from "node:path";
 
 import type { ConversationHistory, ErrorType, RecordedApiRequests } from ".";
 
+type LogPayloads = {
+	type: "RECORDED_API_REQUESTS";
+	payload: RecordedApiRequests;
+};
+
+export function log();
+
 type DataDumpPayload = {
 	data: RecordedApiRequests;
 	program: RouteSchema;
