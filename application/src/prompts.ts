@@ -2,6 +2,7 @@ import type { ErrorType, RecordedApiRequests } from ".";
 
 import { getPostGet } from "./testFixtures/recordedApis/todos/1_getPostGet";
 import { validTodo1 } from "./testFixtures/programs/validTodo1";
+import type { Har } from "har-format";
 
 function strForAi(value: unknown): string {
 	return `
@@ -81,4 +82,10 @@ ${JSON.stringify(errors, null, 2)}
 \`\`\`
 `;
 	},
+
+	harPrompt: (har: Har): string => `
+	Generate an JSON format OpenAPI spec from the following HAR file:
+
+${strForAi(har)}
+`,
 };

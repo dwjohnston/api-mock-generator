@@ -1,7 +1,7 @@
 import type { RecordedApiRequests } from ".";
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
-import { createServer as createHttpServer } from "http";
+import { createServer as createHttpServer } from "node:http";
 import type { Entry, Har, Log } from "har-format";
 import fsAsync from "node:fs/promises";
 import fs from "node:fs";
@@ -12,51 +12,6 @@ export async function startRecordServer(
 	harOutput: string,
 	port = 3001,
 ): Promise<[() => RecordedApiRequests, url: string]> {
-	// const app = express();
-	// const middleware = recorderHarMiddleware(
-	// 	harOutput,
-	// 	appendEntryAndSaveHar,
-	// 	target,
-	// );
-	// app.use(
-	// 	"/",
-	// 	createProxyMiddleware({
-	// 		target: target,
-	// 		changeOrigin: true,
-	// 		selfHandleResponse: true,
-	// 		on: {
-	// 			proxyRes: middleware,
-	// 		},
-	// 	}),
-	// );
-	// const server = createHttpServer(app);
-	// return new Promise((res) => {
-	// 	const listeningUrl = `http:localhost/${port}`;
-	// 	server.listen(port, () => {
-	// 		console.log(`listening on ${listeningUrl}`);
-	// 	});
-	// 	res([
-	// 		() => {
-	// 			server.close();
-	// 			const data = fs.readFileSync(harOutput, "utf8");
-	// 			const harData = JSON.parse(data) as Har;
-	// 			return harData.log.entries.map((v) => {
-	// 				return {
-	// 					request: {
-	// 						url: v.request.url,
-	// 						method: v.request.method,
-	// 						body: v.request.postData?.text,
-	// 					},
-	// 					response: {
-	// 						statusCode: v.response.status,
-	// 						body: v.response.content.text,
-	// 					},
-	// 				};
-	// 			});
-	// 		},
-	// 		listeningUrl,
-	// 	]);
-	// });
 	const proxy = httpProxy.createProxyServer({
 		target,
 		changeOrigin: true,
@@ -115,5 +70,59 @@ export async function startRecordServer(
 				`http://localhost:${port}`,
 			]);
 		});
+	});
+}
+
+export async function startRecordServer2(
+	target: string,
+	harOutput: string,
+	port = 3001,
+): Promise<[() => RecordedApiRequests, url: string]> {
+	const app = express();
+
+	const middleware = recorderHarMiddleware(
+		harOutput,
+		appendEntryAndSaveHar,
+		target,
+	);
+	app.use(
+		"/",
+		createProxyMiddleware({
+			target: target,
+			changeOrigin: true,
+			selfHandleResponse: true,
+			on: {
+				proxyRes: middleware,
+			},
+		}),
+	);
+	const server = createHttpServer(app);
+	return new Promise((res) => {
+		const listeningUrl = `http://localhost/${port}`;
+		server.listen(port, () => {
+			console.log(`listening on ${listeningUrl}`);
+		});
+		res([
+			() => {
+				server.close();
+				console.log(harOutput);
+				const data = fs.readFileSync(harOutput, "utf8");
+				const harData = JSON.parse(data) as Har;
+				return harData.log.entries.map((v) => {
+					return {
+						request: {
+							url: v.request.url,
+							method: v.request.method,
+							body: v.request.postData?.text,
+						},
+						response: {
+							statusCode: v.response.status,
+							body: v.response.content.text,
+						},
+					};
+				});
+			},
+			listeningUrl,
+		]);
 	});
 }

@@ -8,10 +8,14 @@ import { startRecordServer } from "./record";
 import dump from "./testFixtures/recordedApisRaw/recorded.json";
 import { replayHar } from "./replayHar";
 import type { Har } from "har-format";
+import { getLogDir, initLogger } from "./dumpDebugInfo";
+import {}
 
 describe("record", () => {
 	it("record", async () => {
-		startRecordServer("http://jsonplaceholder.typicode.com", 3000);
+
+		initLogger();
+		startRecordServer("http://jsonplaceholder.typicode.com", path.join(getLogDir(), "") 3000);
 		const promises = replayHar(dump as Har, "http://localhost:3000");
 		await Promise.allSettled(promises);
 	});

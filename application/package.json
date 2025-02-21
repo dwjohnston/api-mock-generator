@@ -18,6 +18,7 @@
 		"date-fns": "^4.1.0",
 		"elysia": "^1.2.11",
 		"express": "^4.21.2",
+		"har-to-openapi": "^2.1.1",
 		"harproxyserver": "^0.0.20",
 		"http-proxy": "^1.18.1",
 		"https-proxy-agent": "^7.0.6",

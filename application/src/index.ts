@@ -1,10 +1,11 @@
 import { stdin } from "node:process";
 import type OpenAI from "openai";
 
-import { dumpDebugInfo } from "./dumpDebugInfo";
+import { dumpDebugInfo, getLogDir, initLogger } from "./dumpDebugInfo";
 
-import { startRecordServer } from "./record";
+import { startRecordServer, startRecordServer2 } from "./record";
 import { generateReproduction } from "./generateReproduction";
+import path from "node:path";
 const args = process.argv;
 
 let target: string;
@@ -37,10 +38,16 @@ export type RecordedApiRequests = Array<{
 async function main() {
 	try {
 		//   console.clear();
+
+		initLogger();
 		await prompt("Press Enter to start recording...");
 
 		console.log("Recording started...");
-		const [close, url] = await startRecordServer(target, "./file2.json", 3001);
+		const [close, url] = await startRecordServer2(
+			target,
+			path.join(getLogDir(), "raw-har.json"),
+			3001,
+		);
 		await prompt("Press Enter to switch to replay mode...");
 		const data = close();
 

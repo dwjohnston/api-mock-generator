@@ -2,6 +2,9 @@
   "name": "api-mock-generator",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "start": "bun index.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
