@@ -1,0 +1,30 @@
+{
+	"type": "object",
+	"properties": {
+		"steps": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"explanation": { "type": "string" },
+					"output": { "type": "string" }
+				},
+				"required": ["explanation", "output"],
+				"additionalProperties": false
+			}
+		},
+		"property1": {
+			"type": "string"
+		},
+		"property2": {
+			"type": "string"
+		},
+		"property3": {
+			"type": "string"
+		},
+		"property4": {
+			"type": "string"
+		}
+	},
+	"required": ["steps", "property1", "property2", "property3", "property4"]
+}

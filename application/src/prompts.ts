@@ -1,8 +1,9 @@
 import type { ErrorType, RecordedApiRequests } from ".";
-
+import { hri } from "human-readable-ids";
 import { getPostGet } from "./testFixtures/recordedApis/todos/1_getPostGet";
 import { validTodo1 } from "./testFixtures/programs/validTodo1";
 import type { Har } from "har-format";
+import type { ErrorObject } from "ajv";
 
 function strForAi(value: unknown): string {
 	return `
@@ -83,9 +84,30 @@ ${JSON.stringify(errors, null, 2)}
 `;
 	},
 
-	harPrompt: (har: Har): string => `
-	Generate an JSON format OpenAPI spec from the following HAR file:
+	harPrompt: (har: Har, scenarioName = hri.random()): string => `
+	Generate an JSON format OpenAPI 3.1.0 spec from the following HAR file:
 
 ${strForAi(har)}
+
+Include \`examples\` using the provided test data. Use \`examples\` and _not_ \`example\`.
+
+Additionally add the following properties to the \`examples\` objects:
+
+-'x-example-scenario-name' 
+-'x-example-step-number'
+
+The sequence of requests in the HAR file should be reflected in the additional x-properties.
+The first request in the har file will have 'x-example-step-number' set to 1, the second request will have 'x-example-step-number' set to 2, and so on.
+All examples should have 'x-example-scenario-name' set to '${scenarioName}'
+
 `,
+
+	ajvValidationErrorPrompt: (
+		errors: Array<ErrorObject<string, Record<string, unknown>>>,
+	): string => `
+	
+		According to AJV, the provided JSON is not valid. The errors are as follows:
+		${strForAi(errors)}
+
+	`,
 };

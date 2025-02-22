@@ -4,34 +4,51 @@ import fs from "node:fs";
 import type { Har } from "har-format";
 import OpenAI from "openai";
 import type { ConversationHistory } from ".";
-import openApiSpec from "./specs/open-api-v3.1-2024-11-14.json";
+import openApiSpec from "./specs/open-api-v3.1-2024-11-14-with-extensions.json";
 import type { ResponseFormatJSONSchema } from "openai/resources/shared.mjs";
 import { prompts } from "./prompts";
+import { writeTestLog } from "./testUtils/writeTestLog";
+import { prevalidateJsonSchema } from "./openAiHelpers/prevalidateJsonSchema";
+import { GoogleGenerativeAI, SchemaType, Schema } from "@google/generative-ai";
+import Ajv from "ajv/dist/2020";
+import { iterate } from "./openAiHelpers/iterate";
 
 // TODO Get this type when we can see:
 // https://github.com/bcherny/json-schema-to-typescript/issues/626
+// Also:
+//https://stackoverflow.com/questions/79158453/use-openapi-3-1-schema-to-validate-an-openapi-spec
 type OpenApiSpec = unknown;
 
-export async function harToOpenApi(har: Har): Promise<OpenApiSpec> {
-	const conversationHistory = [] as ConversationHistory;
+const ajv = new Ajv({ strict: false }); // options can be passed, e.g. {allErrors: true}
+const validate = ajv.compile(openApiSpec);
 
-	conversationHistory.push({
-		role: "developer",
-		content: prompts.harPrompt(har),
-	});
-
-	const openai = new OpenAI();
-
-	const response = await openai.chat.completions.create({
-		model: "gpt-4o-mini",
-		response_format: {
+export async function harToOpenApi(
+	har: Har,
+	scenarioName?: string,
+): Promise<OpenApiSpec> {
+	const result = await iterate({
+		iterationName: "harToOpenApi",
+		basePrompt: prompts.harPrompt(har, scenarioName),
+		baseResponseFormat: {
 			type: "json_object",
-
-			// I can't get the structured response to work for an OpenAPI spec
-			// See: https://community.openai.com/t/official-documentation-for-supported-schemas-for-response-format-parameter-in-calls-to-client-beta-chats-completions-parse/932422
 		},
-		messages: conversationHistory,
+		maxIterations: 5,
+		validators: [
+			{
+				validationName: "AJV",
+				validationFunction: (content: unknown) => {
+					validate(content);
+					if (validate.errors) {
+						return prompts.ajvValidationErrorPrompt(validate.errors);
+					}
+					return null;
+				},
+				validationResponseFormat: {
+					type: "json_object",
+				},
+			},
+		],
 	});
 
-	return JSON.parse(response.choices[0].message.content as string);
+	return result.parsedContent;
 }
