@@ -1,0 +1,112 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Todo API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/todos": {
+      "get": {
+        "summary": "Get all todos",
+        "responses": {
+          "200": {
+            "description": "A list of todos",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "example1": {
+                    "summary": "Empty todo list",
+                    "value": "[]",
+                    "x-example-scenario-name": "test-x1",
+                    "x-example-step-number": 1
+                  },
+                  "example2": {
+                    "summary": "Non-empty todo list",
+                    "value": "[{\"id\":\"CFDE_juMMdTCKuGQjeetN\",\"title\":\"foo\",\"completed\":false},{\"id\":\"TtyhMHMjLNZjGNvi46PUJ\",\"title\":\"foo\",\"completed\":false},{\"id\":\"VM97UHv04Ge_vM8SCIP97\",\"title\":\"foo\",\"completed\":false}]",
+                    "x-example-scenario-name": "test-x1",
+                    "x-example-step-number": 5
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new todo",
+        "responses": {
+          "201": {
+            "description": "Todo created",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "example1": {
+                    "summary": "Create first todo",
+                    "value": "{\"id\":\"CFDE_juMMdTCKuGQjeetN\",\"title\":\"foo\",\"completed\":false}",
+                    "x-example-scenario-name": "test-x1",
+                    "x-example-step-number": 2
+                  },
+                  "example2": {
+                    "summary": "Create second todo",
+                    "value": "{\"id\":\"TtyhMHMjLNZjGNvi46PUJ\",\"title\":\"foo\",\"completed\":false}",
+                    "x-example-scenario-name": "test-x1",
+                    "x-example-step-number": 3
+                  },
+                  "example3": {
+                    "summary": "Create third todo",
+                    "value": "{\"id\":\"VM97UHv04Ge_vM8SCIP97\",\"title\":\"foo\",\"completed\":false}",
+                    "x-example-scenario-name": "test-x1",
+                    "x-example-step-number": 4
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/todos/{id}": {
+      "get": {
+        "summary": "Get a single todo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A single todo",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "example1": {
+                    "summary": "Get first todo",
+                    "value": "{\"id\":\"CFDE_juMMdTCKuGQjeetN\",\"title\":\"foo\",\"completed\":false}",
+                    "x-example-scenario-name": "test-x1",
+                    "x-example-step-number": 6
+                  },
+                  "example2": {
+                    "summary": "Get second todo",
+                    "value": "{\"id\":\"TtyhMHMjLNZjGNvi46PUJ\",\"title\":\"foo\",\"completed\":false}",
+                    "x-example-scenario-name": "test-x1",
+                    "x-example-step-number": 7
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
