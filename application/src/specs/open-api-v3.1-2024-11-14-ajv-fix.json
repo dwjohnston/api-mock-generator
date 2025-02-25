@@ -427,7 +427,7 @@
 					"type": "boolean"
 				},
 				"schema": {
-					"$dynamicRef": "#meta"
+					"$ref": "#/$defs/schema"
 				},
 				"content": {
 					"$ref": "#/$defs/content",
@@ -640,7 +640,7 @@
 			"type": "object",
 			"properties": {
 				"schema": {
-					"$dynamicRef": "#meta"
+					"$ref": "#/$defs/schema"
 				},
 				"encoding": {
 					"type": "object",
@@ -875,7 +875,7 @@
 					"type": "boolean"
 				},
 				"schema": {
-					"$dynamicRef": "#meta"
+					"$ref": "#/$defs/schema"
 				},
 				"content": {
 					"$ref": "#/$defs/content",

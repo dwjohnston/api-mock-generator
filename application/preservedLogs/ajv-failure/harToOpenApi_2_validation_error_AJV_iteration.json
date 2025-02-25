@@ -1,0 +1,47 @@
+
+	
+		According to AJV, the provided JSON is not valid. The errors are as follows:
+		
+```
+[
+  {
+    "instancePath": "/paths/~1todos~1{id}/get/parameters/0/schema",
+    "schemaPath": "#/oneOf/0/required",
+    "keyword": "required",
+    "params": {
+      "missingProperty": "schema"
+    },
+    "message": "must have required property 'schema'"
+  },
+  {
+    "instancePath": "/paths/~1todos~1{id}/get/parameters/0/schema",
+    "schemaPath": "#/oneOf/1/required",
+    "keyword": "required",
+    "params": {
+      "missingProperty": "content"
+    },
+    "message": "must have required property 'content'"
+  },
+  {
+    "instancePath": "/paths/~1todos~1{id}/get/parameters/0/schema",
+    "schemaPath": "#/oneOf",
+    "keyword": "oneOf",
+    "params": {
+      "passingSchemas": null
+    },
+    "message": "must match exactly one schema in oneOf"
+  },
+  {
+    "instancePath": "/paths/~1todos~1{id}/get/parameters/0",
+    "schemaPath": "#/if",
+    "keyword": "if",
+    "params": {
+      "failingKeyword": "else"
+    },
+    "message": "must match \"else\" schema"
+  }
+]
+```  
+
+
+	
