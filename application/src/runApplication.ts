@@ -1,5 +1,5 @@
 import Elysia from "elysia";
-import type { RouteSchema } from "./routeSchema";
+import type { ApiProgramRouteConfiguration } from "./types/routeSchema";
 
 const defaultExternalFunctions = {
 	generateRandomNumber: (min = 0, max = 1, step = 1): number => {
@@ -33,7 +33,7 @@ export type ExternalFunctions = typeof defaultExternalFunctions;
  * @param onRun  - What to do when the application starts running
  */
 export async function runApplication(
-	routeSchema: RouteSchema,
+	routeSchema: ApiProgramRouteConfiguration,
 	port: number,
 
 	onRun?: (app: Elysia) => void,

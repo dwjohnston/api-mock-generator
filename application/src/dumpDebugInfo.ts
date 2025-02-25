@@ -1,4 +1,4 @@
-import type { RouteSchema } from "./routeSchema";
+import type { ApiProgramRouteConfiguration } from "./types/routeSchema";
 import { mkdir, writeFile } from "node:fs/promises";
 import { format } from "date-fns";
 import path from "node:path";
@@ -13,7 +13,7 @@ type LogPayloads =
 	  }
 	| {
 			type: "PROGRAM";
-			payload: RouteSchema;
+			payload: ApiProgramRouteConfiguration;
 	  }
 	| {
 			type: "CONVERSATION_HISTORY";
@@ -111,7 +111,7 @@ export function getLogDir(): string {
 
 type DataDumpPayload = {
 	data: RecordedApiRequests;
-	program: RouteSchema;
+	program: ApiProgramRouteConfiguration;
 	conversationHistory: ConversationHistory;
 	errors: Array<ErrorType> | null;
 };

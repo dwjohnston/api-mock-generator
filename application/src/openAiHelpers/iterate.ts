@@ -103,6 +103,10 @@ export async function iterate<T>(config: IterationConfig): Promise<{
 			// Instead that counts as a failed iteration
 			break;
 		}
+
+		if (isSuccess) {
+			break;
+		}
 	}
 
 	writeTestLog(

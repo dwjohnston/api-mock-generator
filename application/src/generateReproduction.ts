@@ -10,7 +10,10 @@ import {
 	aiName,
 	maxIterations,
 } from ".";
-import { type RouteSchema, routeSchema } from "./routeSchema";
+import {
+	type ApiProgramRouteConfiguration,
+	routeSchema,
+} from "./types/routeSchema";
 import { validateApplication } from "./validateApplication";
 import { zodResponseFormat } from "openai/helpers/zod.mjs";
 
@@ -21,12 +24,12 @@ export function createIterate(openai: OpenAI, data: RecordedApiRequests) {
 	): Promise<
 		| {
 				isValid: true;
-				program: RouteSchema;
+				program: ApiProgramRouteConfiguration;
 		  }
 		| {
 				isValid: false;
 				errors: Array<ErrorType>;
-				program: RouteSchema;
+				program: ApiProgramRouteConfiguration;
 		  }
 	> {
 		return new Promise((res, rej) => {
@@ -77,7 +80,7 @@ export function createIterate(openai: OpenAI, data: RecordedApiRequests) {
 	): Promise<
 		{
 			success: boolean;
-			program: RouteSchema;
+			program: ApiProgramRouteConfiguration;
 			conversationHistory: ConversationHistory;
 		} & (
 			| {

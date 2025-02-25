@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeAll } from "bun:test";
 import { harToOpenApi } from "./harToOpenApi";
-import har from "./testFixtures/rawHarFiles/todos_scenario_1";
-import { asHar, isHar } from "./typeHelpers";
-import { initTestLogWriter, writeTestLog } from "./testUtils/writeTestLog";
+import har from "../../testFixtures/rawHarFiles/todos_scenario_1";
+import { asHar } from "../../typeHelpers";
+import { initTestLogWriter, writeTestLog } from "../../testUtils/writeTestLog";
 
 beforeAll(() => {
 	initTestLogWriter();

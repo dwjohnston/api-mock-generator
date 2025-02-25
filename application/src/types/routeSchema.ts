@@ -19,4 +19,6 @@ export const routeSchema = z.object({
 	),
 });
 
-export type RouteSchema = z.infer<typeof routeSchema>;
+export type ApiProgramRouteConfiguration = z.infer<typeof routeSchema>;
+
+export type ApiProgram = Array<ApiProgramRouteConfiguration>;
