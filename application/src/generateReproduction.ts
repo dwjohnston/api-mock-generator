@@ -10,10 +10,7 @@ import {
 	aiName,
 	maxIterations,
 } from ".";
-import {
-	type ApiProgramRouteConfiguration,
-	routeSchema,
-} from "./types/routeSchema";
+import { type ApiProgram, apiProgram } from "./types/routeSchema";
 import { validateApplication } from "./validateApplication";
 import { zodResponseFormat } from "openai/helpers/zod.mjs";
 
@@ -24,16 +21,16 @@ export function createIterate(openai: OpenAI, data: RecordedApiRequests) {
 	): Promise<
 		| {
 				isValid: true;
-				program: ApiProgramRouteConfiguration;
+				program: ApiProgram;
 		  }
 		| {
 				isValid: false;
 				errors: Array<ErrorType>;
-				program: ApiProgramRouteConfiguration;
+				program: ApiProgram;
 		  }
 	> {
 		return new Promise((res, rej) => {
-			const openAiResponse = routeSchema.parse(JSON.parse(response));
+			const openAiResponse = apiProgram.parse(JSON.parse(response));
 			const externalFunctions = createExternalFunctions(data);
 
 			console.log(openAiResponse);
@@ -80,7 +77,7 @@ export function createIterate(openai: OpenAI, data: RecordedApiRequests) {
 	): Promise<
 		{
 			success: boolean;
-			program: ApiProgramRouteConfiguration;
+			program: ApiProgram;
 			conversationHistory: ConversationHistory;
 		} & (
 			| {
@@ -98,7 +95,7 @@ export function createIterate(openai: OpenAI, data: RecordedApiRequests) {
 		);
 		const response = await openai.chat.completions.create({
 			model: "gpt-4o-mini",
-			response_format: zodResponseFormat(routeSchema, "route_schema"),
+			response_format: zodResponseFormat(apiProgram, "route_schema"),
 			messages: conversationHistory,
 		});
 		console.log(`📩 Got reply from ${aiName} #${conversationLength + 1}`);

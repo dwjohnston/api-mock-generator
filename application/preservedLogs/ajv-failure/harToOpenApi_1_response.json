@@ -1,35 +1,35 @@
 {
-  "id": "chatcmpl-B4eeYE8HImYtijIho0MPvTBdp8zDJ",
-  "object": "chat.completion",
-  "created": 1740449282,
-  "model": "gpt-4o-2024-08-06",
-  "choices": [
-    {
-      "index": 0,
-      "message": {
-        "role": "assistant",
-        "content": "\n        {\n          \"openapi\": \"3.1.0\",\n          \"info\": {\n            \"title\": \"Todo API\",\n            \"version\": \"1.0.0\",\n            \"description\": \"OpenAPI specification for Todo API based on provided HAR file\"\n          },\n          \"paths\": {\n            \"/todos\": {\n              \"get\": {\n                \"summary\": \"Retrieve all todos\",\n                \"responses\": {\n                  \"200\": {\n                    \"description\": \"Successful response\",\n                    \"content\": {\n                      \"application/json\": {\n                        \"examples\": {\n                          \"example1\": {\n                            \"summary\": \"First request\",\n                            \"value\": [],\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 1\n                          },\n                          \"example2\": {\n                            \"summary\": \"Fifth request\",\n                            \"value\": [\n                              { \"id\": \"CFDE_juMMdTCKuGQjeetN\", \"title\": \"foo\", \"completed\": false },\n                              { \"id\": \"TtyhMHMjLNZjGNvi46PUJ\", \"title\": \"foo\", \"completed\": false },\n                              { \"id\": \"VM97UHv04Ge_vM8SCIP97\", \"title\": \"foo\", \"completed\": false }\n                            ],\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 5\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              },\n              \"post\": {\n                \"summary\": \"Create a new todo\",\n                \"responses\": {\n                  \"201\": {\n                    \"description\": \"Todo created successfully\",\n                    \"content\": {\n                      \"application/json\": {\n                        \"examples\": {\n                          \"example1\": {\n                            \"summary\": \"Second request\",\n                            \"value\": { \"id\": \"CFDE_juMMdTCKuGQjeetN\", \"title\": \"foo\", \"completed\": false },\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 2\n                          },\n                          \"example2\": {\n                            \"summary\": \"Third request\",\n                            \"value\": { \"id\": \"TtyhMHMjLNZjGNvi46PUJ\", \"title\": \"foo\", \"completed\": false },\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 3\n                          },\n                          \"example3\": {\n                            \"summary\": \"Fourth request\",\n                            \"value\": { \"id\": \"VM97UHv04Ge_vM8SCIP97\", \"title\": \"foo\", \"completed\": false },\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 4\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              }\n            },\n            \"/todos/{id}\": {\n              \"get\": {\n                \"summary\": \"Retrieve a specific todo\",\n                \"parameters\": [\n                  {\n                    \"name\": \"id\",\n                    \"in\": \"path\",\n                    \"required\": true,\n                    \"schema\": {\n                      \"type\": \"string\"\n                    },\n                    \"description\": \"The ID of the todo to retrieve\"\n                  }\n                ],\n                \"responses\": {\n                  \"200\": {\n                    \"description\": \"Successful response\",\n                    \"content\": {\n                      \"application/json\": {\n                        \"examples\": {\n                          \"example1\": {\n                            \"summary\": \"Sixth request\",\n                            \"value\": { \"id\": \"CFDE_juMMdTCKuGQjeetN\", \"title\": \"foo\", \"completed\": false },\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 6\n                          },\n                          \"example2\": {\n                            \"summary\": \"Seventh request\",\n                            \"value\": { \"id\": \"TtyhMHMjLNZjGNvi46PUJ\", \"title\": \"foo\", \"completed\": false },\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 7\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          },\n          \"components\": {\n            \"schemas\": {\n              \"Todo\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"id\": {\n                    \"type\": \"string\",\n                    \"description\": \"Unique identifier of the todo\"\n                  },\n                  \"title\": {\n                    \"type\": \"string\",\n                    \"description\": \"Title of the todo\"\n                  },\n                  \"completed\": {\n                    \"type\": \"boolean\",\n                    \"description\": \"Indicates if the todo is completed\"\n                  }\n                },\n                \"required\": [\"id\", \"title\", \"completed\"]\n              }\n            }\n          }\n        }",
-        "refusal": null
-      },
-      "logprobs": null,
-      "finish_reason": "stop"
-    }
-  ],
-  "usage": {
-    "prompt_tokens": 4161,
-    "completion_tokens": 1005,
-    "total_tokens": 5166,
-    "prompt_tokens_details": {
-      "cached_tokens": 3584,
-      "audio_tokens": 0
-    },
-    "completion_tokens_details": {
-      "reasoning_tokens": 0,
-      "audio_tokens": 0,
-      "accepted_prediction_tokens": 0,
-      "rejected_prediction_tokens": 0
-    }
-  },
-  "service_tier": "default",
-  "system_fingerprint": "fp_eb9dce56a8"
+	"id": "chatcmpl-B4eeYE8HImYtijIho0MPvTBdp8zDJ",
+	"object": "chat.completion",
+	"created": 1740449282,
+	"model": "gpt-4o-2024-08-06",
+	"choices": [
+		{
+			"index": 0,
+			"message": {
+				"role": "assistant",
+				"content": "\n        {\n          \"openapi\": \"3.1.0\",\n          \"info\": {\n            \"title\": \"Todo API\",\n            \"version\": \"1.0.0\",\n            \"description\": \"OpenAPI specification for Todo API based on provided HAR file\"\n          },\n          \"paths\": {\n            \"/todos\": {\n              \"get\": {\n                \"summary\": \"Retrieve all todos\",\n                \"responses\": {\n                  \"200\": {\n                    \"description\": \"Successful response\",\n                    \"content\": {\n                      \"application/json\": {\n                        \"examples\": {\n                          \"example1\": {\n                            \"summary\": \"First request\",\n                            \"value\": [],\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 1\n                          },\n                          \"example2\": {\n                            \"summary\": \"Fifth request\",\n                            \"value\": [\n                              { \"id\": \"CFDE_juMMdTCKuGQjeetN\", \"title\": \"foo\", \"completed\": false },\n                              { \"id\": \"TtyhMHMjLNZjGNvi46PUJ\", \"title\": \"foo\", \"completed\": false },\n                              { \"id\": \"VM97UHv04Ge_vM8SCIP97\", \"title\": \"foo\", \"completed\": false }\n                            ],\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 5\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              },\n              \"post\": {\n                \"summary\": \"Create a new todo\",\n                \"responses\": {\n                  \"201\": {\n                    \"description\": \"Todo created successfully\",\n                    \"content\": {\n                      \"application/json\": {\n                        \"examples\": {\n                          \"example1\": {\n                            \"summary\": \"Second request\",\n                            \"value\": { \"id\": \"CFDE_juMMdTCKuGQjeetN\", \"title\": \"foo\", \"completed\": false },\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 2\n                          },\n                          \"example2\": {\n                            \"summary\": \"Third request\",\n                            \"value\": { \"id\": \"TtyhMHMjLNZjGNvi46PUJ\", \"title\": \"foo\", \"completed\": false },\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 3\n                          },\n                          \"example3\": {\n                            \"summary\": \"Fourth request\",\n                            \"value\": { \"id\": \"VM97UHv04Ge_vM8SCIP97\", \"title\": \"foo\", \"completed\": false },\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 4\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              }\n            },\n            \"/todos/{id}\": {\n              \"get\": {\n                \"summary\": \"Retrieve a specific todo\",\n                \"parameters\": [\n                  {\n                    \"name\": \"id\",\n                    \"in\": \"path\",\n                    \"required\": true,\n                    \"schema\": {\n                      \"type\": \"string\"\n                    },\n                    \"description\": \"The ID of the todo to retrieve\"\n                  }\n                ],\n                \"responses\": {\n                  \"200\": {\n                    \"description\": \"Successful response\",\n                    \"content\": {\n                      \"application/json\": {\n                        \"examples\": {\n                          \"example1\": {\n                            \"summary\": \"Sixth request\",\n                            \"value\": { \"id\": \"CFDE_juMMdTCKuGQjeetN\", \"title\": \"foo\", \"completed\": false },\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 6\n                          },\n                          \"example2\": {\n                            \"summary\": \"Seventh request\",\n                            \"value\": { \"id\": \"TtyhMHMjLNZjGNvi46PUJ\", \"title\": \"foo\", \"completed\": false },\n                            \"x-example-scenario-name\": \"test-x1\",\n                            \"x-example-step-number\": 7\n                          }\n                        }\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          },\n          \"components\": {\n            \"schemas\": {\n              \"Todo\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"id\": {\n                    \"type\": \"string\",\n                    \"description\": \"Unique identifier of the todo\"\n                  },\n                  \"title\": {\n                    \"type\": \"string\",\n                    \"description\": \"Title of the todo\"\n                  },\n                  \"completed\": {\n                    \"type\": \"boolean\",\n                    \"description\": \"Indicates if the todo is completed\"\n                  }\n                },\n                \"required\": [\"id\", \"title\", \"completed\"]\n              }\n            }\n          }\n        }",
+				"refusal": null
+			},
+			"logprobs": null,
+			"finish_reason": "stop"
+		}
+	],
+	"usage": {
+		"prompt_tokens": 4161,
+		"completion_tokens": 11005,
+		"total_tokens": 5166,
+		"prompt_tokens_details": {
+			"cached_tokens": 3584,
+			"audio_tokens": 0
+		},
+		"completion_tokens_details": {
+			"reasoning_tokens": 0,
+			"audio_tokens": 0,
+			"accepted_prediction_tokens": 0,
+			"rejected_prediction_tokens": 0
+		}
+	},
+	"service_tier": "default",
+	"system_fingerprint": "fp_eb9dce56a8"
 }

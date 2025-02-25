@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const routeSchema = z.object({
+export const apiProgram = z.object({
 	setup: z.string(),
 	routes: z.array(
 		z.object({
@@ -19,6 +19,4 @@ export const routeSchema = z.object({
 	),
 });
 
-export type ApiProgramRouteConfiguration = z.infer<typeof routeSchema>;
-
-export type ApiProgram = Array<ApiProgramRouteConfiguration>;
+export type ApiProgram = z.infer<typeof apiProgram>;
