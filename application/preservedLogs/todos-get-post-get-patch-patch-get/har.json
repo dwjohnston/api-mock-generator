@@ -1,0 +1,586 @@
+{
+    "log": {
+        "version": "1.2",
+        "creator": {
+            "name": "mitmproxy",
+            "version": "10.4.2",
+            "comment": ""
+        },
+        "pages": [],
+        "entries": [
+            {
+                "startedDateTime": "2025-02-26T02:33:00.549118+00:00",
+                "time": 1021.5849876403809,
+                "request": {
+                    "method": "GET",
+                    "url": "http://localhost:3000/todos",
+                    "httpVersion": "HTTP/1.1",
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "Proxy-Connection",
+                            "value": "Keep-Alive"
+                        },
+                        {
+                            "name": "accept",
+                            "value": "*/*"
+                        },
+                        {
+                            "name": "accept-encoding",
+                            "value": "gzip, deflate, br"
+                        },
+                        {
+                            "name": "cache-control",
+                            "value": "no-cache"
+                        },
+                        {
+                            "name": "host",
+                            "value": "localhost:3000"
+                        },
+                        {
+                            "name": "postman-token",
+                            "value": "c995fc7e-e15e-4708-b0e0-855ee89c1782"
+                        },
+                        {
+                            "name": "user-agent",
+                            "value": "PostmanRuntime/7.43.0"
+                        },
+                        {
+                            "name": "x-api-key",
+                            "value": "{{token}}"
+                        },
+                        {
+                            "name": "Connection",
+                            "value": "keep-alive"
+                        }
+                    ],
+                    "queryString": [],
+                    "headersSize": 339,
+                    "bodySize": 0
+                },
+                "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "httpVersion": "HTTP/1.1",
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "content-type",
+                            "value": "text/plain;charset=utf-8"
+                        },
+                        {
+                            "name": "Date",
+                            "value": "Wed, 26 Feb 2025 02:33:01 GMT"
+                        },
+                        {
+                            "name": "Content-Length",
+                            "value": "2"
+                        }
+                    ],
+                    "content": {
+                        "size": 2,
+                        "compression": 0,
+                        "mimeType": "text/plain;charset=utf-8",
+                        "text": "[]"
+                    },
+                    "redirectURL": "",
+                    "headersSize": 127,
+                    "bodySize": 2
+                },
+                "cache": {},
+                "timings": {
+                    "connect": 1.1360645294189453,
+                    "ssl": -1.0,
+                    "send": 2.536773681640625,
+                    "receive": 4.218816757202148,
+                    "wait": 1013.6933326721191
+                },
+                "serverIPAddress": "::1"
+            },
+            {
+                "startedDateTime": "2025-02-26T02:33:05.498223+00:00",
+                "time": 1011.9991302490234,
+                "request": {
+                    "method": "POST",
+                    "url": "http://localhost:3000/todos",
+                    "httpVersion": "HTTP/1.1",
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "Proxy-Connection",
+                            "value": "Keep-Alive"
+                        },
+                        {
+                            "name": "accept",
+                            "value": "*/*"
+                        },
+                        {
+                            "name": "accept-encoding",
+                            "value": "gzip, deflate, br"
+                        },
+                        {
+                            "name": "cache-control",
+                            "value": "no-cache"
+                        },
+                        {
+                            "name": "content-type",
+                            "value": "application/json"
+                        },
+                        {
+                            "name": "host",
+                            "value": "localhost:3000"
+                        },
+                        {
+                            "name": "postman-token",
+                            "value": "a02c03fb-5ff3-4702-8d57-739326213156"
+                        },
+                        {
+                            "name": "user-agent",
+                            "value": "PostmanRuntime/7.43.0"
+                        },
+                        {
+                            "name": "x-api-key",
+                            "value": "{{token}}"
+                        },
+                        {
+                            "name": "Connection",
+                            "value": "keep-alive"
+                        },
+                        {
+                            "name": "Content-Length",
+                            "value": "47"
+                        }
+                    ],
+                    "queryString": [],
+                    "headersSize": 407,
+                    "bodySize": 47,
+                    "postData": {
+                        "mimeType": "application/json",
+                        "text": "{\n    \"title\": \"foo\", \n    \"completed\": false\n}",
+                        "params": []
+                    }
+                },
+                "response": {
+                    "status": 201,
+                    "statusText": "Created",
+                    "httpVersion": "HTTP/1.1",
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "name": "Date",
+                            "value": "Wed, 26 Feb 2025 02:33:06 GMT"
+                        },
+                        {
+                            "name": "Content-Length",
+                            "value": "62"
+                        }
+                    ],
+                    "content": {
+                        "size": 62,
+                        "compression": 0,
+                        "mimeType": "application/json",
+                        "text": "{\"id\":\"s2Jts3j3tpJ7clMZjMYVb\",\"title\":\"foo\",\"completed\":false}"
+                    },
+                    "redirectURL": "",
+                    "headersSize": 120,
+                    "bodySize": 62
+                },
+                "cache": {},
+                "timings": {
+                    "connect": -1.0,
+                    "ssl": -1.0,
+                    "send": 2.0499229431152344,
+                    "receive": 3.3233165740966797,
+                    "wait": 1006.6258907318115
+                },
+                "serverIPAddress": "::1"
+            },
+            {
+                "startedDateTime": "2025-02-26T02:33:08.914690+00:00",
+                "time": 1007.1399211883545,
+                "request": {
+                    "method": "GET",
+                    "url": "http://localhost:3000/todos",
+                    "httpVersion": "HTTP/1.1",
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "Proxy-Connection",
+                            "value": "Keep-Alive"
+                        },
+                        {
+                            "name": "accept",
+                            "value": "*/*"
+                        },
+                        {
+                            "name": "accept-encoding",
+                            "value": "gzip, deflate, br"
+                        },
+                        {
+                            "name": "cache-control",
+                            "value": "no-cache"
+                        },
+                        {
+                            "name": "host",
+                            "value": "localhost:3000"
+                        },
+                        {
+                            "name": "postman-token",
+                            "value": "88a73296-79f9-4bee-85fd-bcb818152b86"
+                        },
+                        {
+                            "name": "user-agent",
+                            "value": "PostmanRuntime/7.43.0"
+                        },
+                        {
+                            "name": "x-api-key",
+                            "value": "{{token}}"
+                        },
+                        {
+                            "name": "Connection",
+                            "value": "keep-alive"
+                        }
+                    ],
+                    "queryString": [],
+                    "headersSize": 339,
+                    "bodySize": 0
+                },
+                "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "httpVersion": "HTTP/1.1",
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "content-type",
+                            "value": "text/plain;charset=utf-8"
+                        },
+                        {
+                            "name": "Date",
+                            "value": "Wed, 26 Feb 2025 02:33:09 GMT"
+                        },
+                        {
+                            "name": "Content-Length",
+                            "value": "64"
+                        }
+                    ],
+                    "content": {
+                        "size": 64,
+                        "compression": 0,
+                        "mimeType": "text/plain;charset=utf-8",
+                        "text": "[{\"id\":\"s2Jts3j3tpJ7clMZjMYVb\",\"title\":\"foo\",\"completed\":false}]"
+                    },
+                    "redirectURL": "",
+                    "headersSize": 128,
+                    "bodySize": 64
+                },
+                "cache": {},
+                "timings": {
+                    "connect": -1.0,
+                    "ssl": -1.0,
+                    "send": 1.979827880859375,
+                    "receive": 1.898050308227539,
+                    "wait": 1003.2620429992676
+                },
+                "serverIPAddress": "::1"
+            },
+            {
+                "startedDateTime": "2025-02-26T02:33:15.511253+00:00",
+                "time": 1010.3271007537842,
+                "request": {
+                    "method": "PATCH",
+                    "url": "http://localhost:3000/todos/RGbMjSup7rnpUABvvjgn",
+                    "httpVersion": "HTTP/1.1",
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "Proxy-Connection",
+                            "value": "Keep-Alive"
+                        },
+                        {
+                            "name": "accept",
+                            "value": "*/*"
+                        },
+                        {
+                            "name": "accept-encoding",
+                            "value": "gzip, deflate, br"
+                        },
+                        {
+                            "name": "cache-control",
+                            "value": "no-cache"
+                        },
+                        {
+                            "name": "content-type",
+                            "value": "application/json"
+                        },
+                        {
+                            "name": "host",
+                            "value": "localhost:3000"
+                        },
+                        {
+                            "name": "postman-token",
+                            "value": "5d43edd6-d342-4656-8e40-bec64de29962"
+                        },
+                        {
+                            "name": "user-agent",
+                            "value": "PostmanRuntime/7.43.0"
+                        },
+                        {
+                            "name": "x-api-key",
+                            "value": "{{token}}"
+                        },
+                        {
+                            "name": "Connection",
+                            "value": "keep-alive"
+                        },
+                        {
+                            "name": "Content-Length",
+                            "value": "47"
+                        }
+                    ],
+                    "queryString": [],
+                    "headersSize": 407,
+                    "bodySize": 47,
+                    "postData": {
+                        "mimeType": "application/json",
+                        "text": "{\n    \"title\": \"bar\", \n    \"completed\": false\n}",
+                        "params": []
+                    }
+                },
+                "response": {
+                    "status": 404,
+                    "statusText": "Not Found",
+                    "httpVersion": "HTTP/1.1",
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "content-type",
+                            "value": "text/plain;charset=utf-8"
+                        },
+                        {
+                            "name": "Date",
+                            "value": "Wed, 26 Feb 2025 02:33:16 GMT"
+                        },
+                        {
+                            "name": "Content-Length",
+                            "value": "21"
+                        }
+                    ],
+                    "content": {
+                        "size": 21,
+                        "compression": 0,
+                        "mimeType": "text/plain;charset=utf-8",
+                        "text": "{\"error\":\"Not found\"}"
+                    },
+                    "redirectURL": "",
+                    "headersSize": 128,
+                    "bodySize": 21
+                },
+                "cache": {},
+                "timings": {
+                    "connect": -1.0,
+                    "ssl": -1.0,
+                    "send": 3.0050277709960938,
+                    "receive": 2.4340152740478516,
+                    "wait": 1004.8880577087402
+                },
+                "serverIPAddress": "::1"
+            },
+            {
+                "startedDateTime": "2025-02-26T02:33:23.619886+00:00",
+                "time": 1009.8166465759277,
+                "request": {
+                    "method": "PATCH",
+                    "url": "http://localhost:3000/todos/s2Jts3j3tpJ7clMZjMYVb",
+                    "httpVersion": "HTTP/1.1",
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "Proxy-Connection",
+                            "value": "Keep-Alive"
+                        },
+                        {
+                            "name": "accept",
+                            "value": "*/*"
+                        },
+                        {
+                            "name": "accept-encoding",
+                            "value": "gzip, deflate, br"
+                        },
+                        {
+                            "name": "cache-control",
+                            "value": "no-cache"
+                        },
+                        {
+                            "name": "content-type",
+                            "value": "application/json"
+                        },
+                        {
+                            "name": "host",
+                            "value": "localhost:3000"
+                        },
+                        {
+                            "name": "postman-token",
+                            "value": "fa98a950-710b-4467-8aea-cec39ea6c1d3"
+                        },
+                        {
+                            "name": "user-agent",
+                            "value": "PostmanRuntime/7.43.0"
+                        },
+                        {
+                            "name": "x-api-key",
+                            "value": "{{token}}"
+                        },
+                        {
+                            "name": "Connection",
+                            "value": "keep-alive"
+                        },
+                        {
+                            "name": "Content-Length",
+                            "value": "47"
+                        }
+                    ],
+                    "queryString": [],
+                    "headersSize": 407,
+                    "bodySize": 47,
+                    "postData": {
+                        "mimeType": "application/json",
+                        "text": "{\n    \"title\": \"bar\", \n    \"completed\": false\n}",
+                        "params": []
+                    }
+                },
+                "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "httpVersion": "HTTP/1.1",
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "name": "Date",
+                            "value": "Wed, 26 Feb 2025 02:33:24 GMT"
+                        },
+                        {
+                            "name": "Content-Length",
+                            "value": "62"
+                        }
+                    ],
+                    "content": {
+                        "size": 62,
+                        "compression": 0,
+                        "mimeType": "application/json",
+                        "text": "{\"id\":\"s2Jts3j3tpJ7clMZjMYVb\",\"title\":\"bar\",\"completed\":false}"
+                    },
+                    "redirectURL": "",
+                    "headersSize": 120,
+                    "bodySize": 62
+                },
+                "cache": {},
+                "timings": {
+                    "connect": -1.0,
+                    "ssl": -1.0,
+                    "send": 3.2699108123779297,
+                    "receive": 2.641916275024414,
+                    "wait": 1003.9048194885254
+                },
+                "serverIPAddress": "::1"
+            },
+            {
+                "startedDateTime": "2025-02-26T02:33:27.941509+00:00",
+                "time": 1010.8251571655273,
+                "request": {
+                    "method": "GET",
+                    "url": "http://localhost:3000/todos",
+                    "httpVersion": "HTTP/1.1",
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "Proxy-Connection",
+                            "value": "Keep-Alive"
+                        },
+                        {
+                            "name": "accept",
+                            "value": "*/*"
+                        },
+                        {
+                            "name": "accept-encoding",
+                            "value": "gzip, deflate, br"
+                        },
+                        {
+                            "name": "cache-control",
+                            "value": "no-cache"
+                        },
+                        {
+                            "name": "host",
+                            "value": "localhost:3000"
+                        },
+                        {
+                            "name": "postman-token",
+                            "value": "d6567909-f41f-4bf7-884c-1753ec7823cc"
+                        },
+                        {
+                            "name": "user-agent",
+                            "value": "PostmanRuntime/7.43.0"
+                        },
+                        {
+                            "name": "x-api-key",
+                            "value": "{{token}}"
+                        },
+                        {
+                            "name": "Connection",
+                            "value": "keep-alive"
+                        }
+                    ],
+                    "queryString": [],
+                    "headersSize": 339,
+                    "bodySize": 0
+                },
+                "response": {
+                    "status": 200,
+                    "statusText": "OK",
+                    "httpVersion": "HTTP/1.1",
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "content-type",
+                            "value": "text/plain;charset=utf-8"
+                        },
+                        {
+                            "name": "Date",
+                            "value": "Wed, 26 Feb 2025 02:33:28 GMT"
+                        },
+                        {
+                            "name": "Content-Length",
+                            "value": "64"
+                        }
+                    ],
+                    "content": {
+                        "size": 64,
+                        "compression": 0,
+                        "mimeType": "text/plain;charset=utf-8",
+                        "text": "[{\"id\":\"s2Jts3j3tpJ7clMZjMYVb\",\"title\":\"bar\",\"completed\":false}]"
+                    },
+                    "redirectURL": "",
+                    "headersSize": 128,
+                    "bodySize": 64
+                },
+                "cache": {},
+                "timings": {
+                    "connect": -1.0,
+                    "ssl": -1.0,
+                    "send": 2.557992935180664,
+                    "receive": 4.6253204345703125,
+                    "wait": 1003.6418437957764
+                },
+                "serverIPAddress": "::1"
+            }
+        ]
+    }
+}
