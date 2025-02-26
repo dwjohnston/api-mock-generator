@@ -4,24 +4,39 @@ This is an attempt at creating a mock server based on observing real world appli
 
 See this post for motivation: https://blacksheepcode.com/posts/the_tool_i_want_to_exist
 
-## Usage
+## Recording HAR files 
 
-
-The main application is in the `application` directory. Navigate there. 
-
-You will  need to set up an `OPENAI_API_KEY` in a `.env` file. 
-
-Start application with: 
+1. Start [mitmproxy](https://mitmproxy.org/) running
 
 ```
-bun src/index.ts --target=https://your-api.com
+mitmproxy
 ```
-Press any key to start proxy server. 
-This will start a proxy server on localhost:3001
 
-Make requests against this proxy using a tool like curl or Postman (don't use your browser, currently this will fail on fetching anything that doesn't provide a json response). 
+2. Start the sample-api
 
-When you are done, press any key to have the tool generate a reproduction. 
+```
+bun run start:sample-api
+```
 
-If things fail, look in the logs. 
+
+3. Start the proxy running 
+
+```
+bun run start:proxy-server
+```
+
+
+4. Make your requests against `http://localhost:3001`
+
+5. In mitm proxy, run the command
+
+```
+har.save @all proxyRecords/har.json
+```
+
+6 You can preserve your recording with 
+
+```
+bun run copy-har "scenario-name"
+```
 

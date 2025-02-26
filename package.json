@@ -1,16 +1,24 @@
 {
-  "name": "api-mock-generator",
-  "module": "index.ts",
-  "type": "module",
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "harproxyserver": "^0.0.20",
-    "http-proxy-middleware": "^3.0.3"
-  }
+	"name": "api-mock-generator",
+	"module": "index.ts",
+	"type": "module",
+	"scripts": {
+		"start:sample-api": "bun sample-api/index.ts",
+		"start:proxy-server": "bun proxy.js",
+		"copy-har": "bun scripts/copyHar.js"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@types/bun": "latest",
+		"@types/http-proxy": "^1.17.16"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	},
+	"dependencies": {
+		"harproxyserver": "^0.0.22",
+		"http-proxy": "^1.18.1",
+		"http-proxy-middleware": "^3.0.3",
+		"https-proxy-agent": "^7.0.6"
+	}
 }

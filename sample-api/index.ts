@@ -1,7 +1,5 @@
 import { Elysia } from "elysia";
 import { nanoid } from "nanoid";
-
-// Todo type definition
 interface Todo {
 	id: string;
 	title: string;
@@ -35,17 +33,19 @@ const dbAccessor = {
 	},
 };
 
-Object.entries(dbAccessor).forEach((v) => {
-	const [key, value] = v;
-
-	dbAccessor[key] = async (...args) => {
+for (const [key, value] of Object.entries(dbAccessor) as [
+	keyof typeof dbAccessor,
+	(...args: unknown[]) => Promise<unknown>,
+][]) {
+	//@ts-expect-error
+	dbAccessor[key] = async (...args: unknown[]) => {
 		await new Promise((res) => setTimeout(() => res(null), 1000));
 
 		return value(...args);
 	};
-});
+}
 
-const app = new Elysia()
+new Elysia()
 	.get("/todos", async () => {
 		const todos = await dbAccessor.getAll();
 		return new Response(JSON.stringify(todos), { status: 200 });
@@ -58,12 +58,22 @@ const app = new Elysia()
 				status: 404,
 			});
 		}
-		return new Response(JSON.stringify(todo), { status: 200 });
+		return new Response(JSON.stringify(todo), {
+			status: 200,
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
 	})
 
 	.post("/todos", async ({ body }) => {
 		const newTodo = await dbAccessor.create(body as Omit<Todo, "id">);
-		return new Response(JSON.stringify(newTodo), { status: 201 });
+		return new Response(JSON.stringify(newTodo), {
+			status: 201,
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
 	})
 
 	.patch("/todos/:id", async ({ params, body }) => {
@@ -76,7 +86,12 @@ const app = new Elysia()
 				status: 404,
 			});
 		}
-		return new Response(JSON.stringify(updatedTodo), { status: 200 });
+		return new Response(JSON.stringify(updatedTodo), {
+			status: 200,
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
 	})
 
 	.delete("/todos/:id", async ({ params }) => {

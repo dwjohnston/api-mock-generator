@@ -31,7 +31,7 @@ export async function iterate<T>(config: IterationConfig): Promise<{
 		content: config.basePrompt,
 	});
 
-	console.log("💬 Sending conversation to AI # BASE PROMPT");
+	console.log("💬 Sending conversation to AI #0");
 	const response = await openai.chat.completions.create({
 		// Important, solves this bug:
 		// https://community.openai.com/t/function-json-schema-is-still-ignored-by-gpt-4-4o-and-4o-mini-when-calling-tools/895368/2
@@ -39,7 +39,7 @@ export async function iterate<T>(config: IterationConfig): Promise<{
 		response_format: config.baseResponseFormat,
 		messages: conversationHistory,
 	});
-	console.log("💬 Received response from AI # BASE PROMPT");
+	console.log("💬 Received response from AI #0");
 
 	conversationHistory.push(response.choices[0].message);
 

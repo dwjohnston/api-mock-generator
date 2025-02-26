@@ -6,7 +6,7 @@ import Ajv from "ajv/dist/2020";
 import { iterate } from "../../openAiHelpers/iterate";
 import type { OpenApiSpec } from "../../types/types";
 
-const ajv = new Ajv({ strict: false }); // options can be passed, e.g. {allErrors: true}
+const ajv = new Ajv({ strict: false, logger: false }); // options can be passed, e.g. {allErrors: true}
 const validate = ajv.compile(openApiSpec);
 
 export async function harToOpenApi(

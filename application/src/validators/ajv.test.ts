@@ -5,7 +5,7 @@ import openApiSchemaAjvFix from "../specs/open-api-v3.1-2024-11-14-ajv-fix.json"
 import openApiSpec from "../../preservedLogs/ajv-failure/harToOpenApi_0_openai_response_content.json";
 describe("AJV Validator", () => {
 	it("Sanity test - simple schema", () => {
-		const ajv = new Ajv();
+		const ajv = new Ajv({ logger: false });
 		const schema = {
 			type: "object",
 			properties: {
@@ -23,7 +23,7 @@ describe("AJV Validator", () => {
 	});
 
 	it("if else schema", () => {
-		const ajv = new Ajv();
+		const ajv = new Ajv({ logger: false });
 		const schema = {
 			type: "object",
 			properties: {
@@ -88,7 +88,7 @@ describe("AJV Validator", () => {
 	});
 
 	it("anchor", () => {
-		const ajv = new Ajv({ strict: false });
+		const ajv = new Ajv({ strict: false, logger: false });
 		const validate = ajv.compile({
 			$id: "https://example.com/schemas/myschema", // 👈 needed
 			type: "object",
@@ -128,7 +128,7 @@ describe("AJV Validator", () => {
 	});
 
 	it("Additional properties - no requirements", () => {
-		const ajv = new Ajv();
+		const ajv = new Ajv({ logger: false });
 		const schema = {
 			type: "object",
 			properties: {
@@ -169,7 +169,7 @@ describe("AJV Validator", () => {
 	});
 
 	it("Additional properties - unevaluatedProperties:false", () => {
-		const ajv = new Ajv();
+		const ajv = new Ajv({ logger: false });
 		const schema = {
 			type: "object",
 			properties: {
@@ -190,7 +190,7 @@ describe("AJV Validator", () => {
 	});
 
 	it("Additional properties - unevaluatedProperties:false", () => {
-		const ajv = new Ajv();
+		const ajv = new Ajv({ logger: false });
 		const schema = {
 			type: "object",
 			properties: {
@@ -223,7 +223,7 @@ describe("AJV Validator", () => {
 	});
 
 	it("Dynamic ref", () => {
-		const ajv = new Ajv();
+		const ajv = new Ajv({ logger: false });
 		const schema = {
 			type: "object",
 			properties: {
@@ -257,21 +257,21 @@ describe("AJV Validator", () => {
 	 * Shows current behavior of the schema + ai response
 	 */
 	it.skip("OpenAPI schema", () => {
-		const ajv = new Ajv({ strict: false });
+		const ajv = new Ajv({ strict: false, logger: false });
 		const validate = ajv.compile(openApiSchmea);
 		validate(openApiSpec);
 		expect(validate.errors).toBeNull();
 	});
 
 	it("OpenAPI schema - ajv fix", () => {
-		const ajv = new Ajv({ strict: false });
+		const ajv = new Ajv({ strict: false, logger: false });
 		const validate = ajv.compile(openApiSchemaAjvFix);
 		validate(openApiSpec);
 		expect(validate.errors).toBeNull();
 	});
 
 	it("OpenAPI schema - partial", () => {
-		const ajv = new Ajv({ strict: false });
+		const ajv = new Ajv({ strict: false, logger: false });
 		const validate = ajv.compile({
 			type: "object",
 			properties: {

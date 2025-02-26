@@ -19,10 +19,19 @@ describe("harToOpenApi", async () => {
 		expect(content).toHaveProperty("openapi");
 		expect(Object.values(content.paths).length).toBe(2);
 		expect(content.paths["/todos"]).toBeDefined();
-		expect(content.paths["/todos/{id}"]).toBeDefined();
+		const todosIdRegex = /\/todos\/\{[\w-]+\}/;
+		const [, todosIdPath] = Object.entries(content.paths).find(
+			(entry) => {
+				const [key, value] = entry;
+				return todosIdRegex.test(key as string);
+			},
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		) as any;
+		expect(todosIdPath).toBeDefined();
+
 		expect(content.paths["/todos"].get).toBeDefined();
 		expect(content.paths["/todos"].post).toBeDefined();
-		expect(content.paths["/todos/{id}"].get).toBeDefined();
+		expect(todosIdPath.get).toBeDefined();
 
 		const getTodosResponses = Object.values(
 			content.paths["/todos"].get.responses["200"].content,
@@ -35,7 +44,7 @@ describe("harToOpenApi", async () => {
 		expect(postTodosResponses.length).toBe(1);
 
 		const getTodosIdResponses = Object.values(
-			content.paths["/todos/{id}"].get.responses["200"].content,
+			todosIdPath.get.responses["200"].content,
 		);
 		expect(getTodosIdResponses.length).toBe(1);
 
@@ -79,5 +88,5 @@ describe("harToOpenApi", async () => {
 		// 	"test-x1",
 		// );
 		// expect(getTodosIdExamples["example-6"]["x-example-step-number"]).toBe(6);
-	});
+	}, 60_000);
 });

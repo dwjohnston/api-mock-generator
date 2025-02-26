@@ -12,9 +12,6 @@ import { validateApplication } from "../../validators/validateApplication";
 import { createExternalFunctions } from "../../mockServer/createExternalFunctions";
 import type { ApiProgramValidationError } from "../..";
 
-const ajv = new Ajv({ strict: false }); // options can be passed, e.g. {allErrors: true}
-const validate = ajv.compile(openApiSpec);
-
 export async function openApiToProgram(
 	openApiSpec: OpenApiSpec,
 	harFile: Har,

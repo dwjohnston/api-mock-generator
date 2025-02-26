@@ -6,7 +6,7 @@ import { getPostGet } from "../_testFixtures/recordedApis/todos/1_getPostGet";
 import { startRecordServer } from "./record";
 
 import dump from "../_testFixtures/recordedApisRaw/recorded.json";
-import { replayHar } from "../replayHar";
+import { replayHar } from "../validators/replayHar";
 import type { Har } from "har-format";
 import { getLogDir, initLogger } from "../dumpDebugInfo";
 import {}
