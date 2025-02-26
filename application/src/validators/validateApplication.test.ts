@@ -1,8 +1,8 @@
 import { describe, it, expect } from "bun:test";
-import { runApplication } from "./runApplication";
-import { validTodo1 } from "./testFixtures/programs/validTodo1";
+import { runApplication } from "../mockServer/runApplication";
+import { validTodo1 } from "../_testFixtures/programs/validTodo1";
 import { validateApplication } from "./validateApplication";
-import { getPostGet } from "./testFixtures/recordedApis/todos/1_getPostGet";
+import { getPostGet } from "../_testFixtures/recordedApis/todos/1_getPostGet";
 
 describe("validateApplication", () => {
 	it("should validate the application", async () => {

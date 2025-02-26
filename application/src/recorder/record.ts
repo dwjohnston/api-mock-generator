@@ -1,4 +1,4 @@
-import type { RecordedApiRequests } from ".";
+import type { RecordedApiRequests } from "..";
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { createServer as createHttpServer } from "node:http";

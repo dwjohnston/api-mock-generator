@@ -1,17 +1,17 @@
 import OpenAI from "openai";
-import { prompts } from "./prompts";
-import { runApplication } from "./runApplication";
-import { createExternalFunctions } from "./createExternalFunctions";
+import { prompts } from "../prompts/prompts";
+import { runApplication } from "../mockServer/runApplication";
+import { createExternalFunctions } from "../mockServer/createExternalFunctions";
 import {
 	type RecordedApiRequests,
 	VALIDATION_PORT,
-	type ErrorType,
+	type ApiProgramValidationError,
 	type ConversationHistory,
 	aiName,
 	maxIterations,
-} from ".";
-import { type ApiProgram, apiProgram } from "./types/routeSchema";
-import { validateApplication } from "./validateApplication";
+} from "..";
+import { type ApiProgram, apiProgram } from "../types/routeSchema";
+import { validateApplication } from "../validators/validateApplication";
 import { zodResponseFormat } from "openai/helpers/zod.mjs";
 
 export function createIterate(openai: OpenAI, data: RecordedApiRequests) {
@@ -25,7 +25,7 @@ export function createIterate(openai: OpenAI, data: RecordedApiRequests) {
 		  }
 		| {
 				isValid: false;
-				errors: Array<ErrorType>;
+				errors: Array<ApiProgramValidationError>;
 				program: ApiProgram;
 		  }
 	> {
@@ -85,7 +85,7 @@ export function createIterate(openai: OpenAI, data: RecordedApiRequests) {
 			  }
 			| {
 					success: false;
-					errors: Array<ErrorType>;
+					errors: Array<ApiProgramValidationError>;
 			  }
 		)
 	> {

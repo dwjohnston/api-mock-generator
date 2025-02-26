@@ -1,5 +1,5 @@
 import Elysia from "elysia";
-import type { ApiProgram } from "./types/routeSchema";
+import type { ApiProgram } from "../types/routeSchema";
 
 const defaultExternalFunctions = {
 	generateRandomNumber: (min = 0, max = 1, step = 1): number => {
@@ -26,6 +26,10 @@ const defaultExternalFunctions = {
 	},
 };
 
+const DEFAULT_VALIDATION_PORT = process.env.DEFAULT_VALIDATION_PORT
+	? Number.parseInt(process.env.DEFAULT_VALIDATION_PORT)
+	: 3001;
+
 export type ExternalFunctions = typeof defaultExternalFunctions;
 /**
  *
@@ -34,7 +38,7 @@ export type ExternalFunctions = typeof defaultExternalFunctions;
  */
 export async function runApplication(
 	routeSchema: ApiProgram,
-	port: number,
+	port = DEFAULT_VALIDATION_PORT,
 
 	onRun?: (app: Elysia) => void,
 	externalFunctions = defaultExternalFunctions,

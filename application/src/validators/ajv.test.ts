@@ -1313,6 +1313,7 @@ describe("AJV Validator", () => {
 						type: "object",
 						required: ["$ref"],
 					},
+
 					then: {
 						$ref: "#/$defs/reference",
 					},

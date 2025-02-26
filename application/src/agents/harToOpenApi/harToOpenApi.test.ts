@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll } from "bun:test";
 import { harToOpenApi } from "./harToOpenApi";
-import har from "../../testFixtures/rawHarFiles/todos_scenario_1";
-import { asHar } from "../../typeHelpers";
+import har from "../../_testFixtures/rawHarFiles/todos_scenario_1";
+import { asHar } from "../../types/typeHelpers";
 import { initTestLogWriter, writeTestLog } from "../../testUtils/writeTestLog";
 
 beforeAll(() => {
@@ -9,32 +9,33 @@ beforeAll(() => {
 });
 describe("harToOpenApi", async () => {
 	it("should generate OpenAPI spec from HAR file", async () => {
+		const result = await harToOpenApi(asHar(har), "test-x1");
 		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-		const result = (await harToOpenApi(asHar(har), "test-x1")) as any;
+		const content = result.content as any;
 
-		writeTestLog("harToOpenApi1", result);
+		writeTestLog("harToOpenApi1", content);
 
-		expect(result).toBeDefined();
-		expect(result).toHaveProperty("openapi");
-		expect(Object.values(result.paths).length).toBe(2);
-		expect(result.paths["/todos"]).toBeDefined();
-		expect(result.paths["/todos/{id}"]).toBeDefined();
-		expect(result.paths["/todos"].get).toBeDefined();
-		expect(result.paths["/todos"].post).toBeDefined();
-		expect(result.paths["/todos/{id}"].get).toBeDefined();
+		expect(content).toBeDefined();
+		expect(content).toHaveProperty("openapi");
+		expect(Object.values(content.paths).length).toBe(2);
+		expect(content.paths["/todos"]).toBeDefined();
+		expect(content.paths["/todos/{id}"]).toBeDefined();
+		expect(content.paths["/todos"].get).toBeDefined();
+		expect(content.paths["/todos"].post).toBeDefined();
+		expect(content.paths["/todos/{id}"].get).toBeDefined();
 
 		const getTodosResponses = Object.values(
-			result.paths["/todos"].get.responses["200"].content,
+			content.paths["/todos"].get.responses["200"].content,
 		);
 		expect(getTodosResponses.length).toBe(1);
 
 		const postTodosResponses = Object.values(
-			result.paths["/todos"].post.responses["201"].content,
+			content.paths["/todos"].post.responses["201"].content,
 		);
 		expect(postTodosResponses.length).toBe(1);
 
 		const getTodosIdResponses = Object.values(
-			result.paths["/todos/{id}"].get.responses["200"].content,
+			content.paths["/todos/{id}"].get.responses["200"].content,
 		);
 		expect(getTodosIdResponses.length).toBe(1);
 

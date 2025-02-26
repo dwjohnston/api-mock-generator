@@ -3,8 +3,8 @@ import type OpenAI from "openai";
 
 import { dumpDebugInfo, getLogDir, initLogger } from "./dumpDebugInfo";
 
-import { startRecordServer, startRecordServer2 } from "./record";
-import { generateReproduction } from "./generateReproduction";
+import { startRecordServer, startRecordServer2 } from "./recorder/record";
+import { generateReproduction } from "./archive/generateReproduction";
 import path from "node:path";
 const args = process.argv;
 
@@ -72,7 +72,7 @@ export const VALIDATION_PORT = 3002;
 
 export const maxIterations = 1;
 
-export type ErrorType = {
+export type ApiProgramValidationError = {
 	requestNumber: number;
 	requestData: RecordedApiRequests[number]["request"];
 	expectedResponse: RecordedApiRequests[number]["response"];

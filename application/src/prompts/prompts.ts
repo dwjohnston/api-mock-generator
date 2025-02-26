@@ -1,10 +1,10 @@
-import type { ErrorType, RecordedApiRequests } from ".";
+import type { ApiProgramValidationError, RecordedApiRequests } from "..";
 import { hri } from "human-readable-ids";
-import { getPostGet } from "./testFixtures/recordedApis/todos/1_getPostGet";
-import { validTodo1 } from "./testFixtures/programs/validTodo1";
+import { getPostGet } from "../_testFixtures/recordedApis/todos/1_getPostGet";
+import { validTodo1 } from "../_testFixtures/programs/validTodo1";
 import type { Har } from "har-format";
 import type { ErrorObject } from "ajv";
-import type { OpenApiSpec } from "./types/types";
+import type { OpenApiSpec } from "../types/types";
 
 function strForAi(value: unknown): string {
 	return `
@@ -81,7 +81,7 @@ ${JSON.stringify(data, null, 2)}
 	/**
 	 * @deprecated
 	 */
-	errorFeedbackPrompt: (errors: Array<ErrorType>): string => {
+	errorFeedbackPrompt: (errors: Array<ApiProgramValidationError>): string => {
 		return `
 The provided configuration had the following errors: 
 
@@ -169,4 +169,13 @@ Your API spec is as follows:
 ${strForAi(openApiSpec)}
 	
 	`,
+
+	openapiToProgramErrorFeedbackPrompt: (
+		errors: Array<ApiProgramValidationError>,
+	): string => `
+The provided configuration had the following errors: 
+\`\`\`
+${JSON.stringify(errors, null, 2)}
+\`\`\`
+`,
 };

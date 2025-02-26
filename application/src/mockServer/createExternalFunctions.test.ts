@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
 import { createExternalFunctions } from "./createExternalFunctions";
-import { getPostGet } from "./testFixtures/recordedApis/todos/1_getPostGet";
+import { getPostGet } from "../_testFixtures/recordedApis/todos/1_getPostGet";
 
 describe("createExternalFunctions", () => {
 	it("behaves correctly", () => {

@@ -1,6 +1,6 @@
 import type { Har } from "har-format";
 import openApiSpec from "../../specs/open-api-v3.1-2024-11-14-ajv-fix.json";
-import { prompts } from "../../prompts";
+import { prompts } from "../../prompts/prompts";
 
 import Ajv from "ajv/dist/2020";
 import { iterate } from "../../openAiHelpers/iterate";
@@ -12,7 +12,10 @@ const validate = ajv.compile(openApiSpec);
 export async function harToOpenApi(
 	har: Har,
 	scenarioName?: string,
-): Promise<OpenApiSpec> {
+): Promise<{
+	isSuccess: boolean;
+	content: OpenApiSpec;
+}> {
 	const result = await iterate({
 		iterationName: "harToOpenApi",
 		basePrompt: prompts.harPrompt(har, scenarioName),
@@ -23,7 +26,7 @@ export async function harToOpenApi(
 		validators: [
 			{
 				validationName: "AJV",
-				validationFunction: (content: unknown) => {
+				validationFunction: async (content: unknown) => {
 					validate(content);
 					if (validate.errors) {
 						return prompts.ajvValidationErrorPrompt(validate.errors);
@@ -37,5 +40,5 @@ export async function harToOpenApi(
 		],
 	});
 
-	return result.parsedContent;
+	return result;
 }

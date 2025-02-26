@@ -5,7 +5,10 @@ import { writeTestLog } from "../testUtils/writeTestLog";
 
 type IterationValidator = {
 	validationName: string;
-	validationFunction: (content: unknown) => string | null;
+	validationFunction: (
+		content: unknown,
+		iterationNumber: number,
+	) => Promise<string | null>;
 	validationResponseFormat: ChatCompletionCreateParamsBase["response_format"];
 };
 
@@ -19,7 +22,7 @@ type IterationConfig = {
 
 export async function iterate<T>(config: IterationConfig): Promise<{
 	isSuccess: boolean;
-	parsedContent: T;
+	content: T;
 }> {
 	const openai = new OpenAI();
 	const conversationHistory = [] as ConversationHistory;
@@ -59,7 +62,10 @@ export async function iterate<T>(config: IterationConfig): Promise<{
 				`🔍 Validating ${validator.validationName} for ${config.iterationName} #${i}`,
 			);
 
-			const validationResponse = validator.validationFunction(parsedContent);
+			const validationResponse = await validator.validationFunction(
+				parsedContent,
+				i,
+			);
 			if (!validationResponse) {
 				console.log(
 					`✅ ${validator.validationName} is valid for ${config.iterationName} #${i}`,
@@ -116,6 +122,6 @@ export async function iterate<T>(config: IterationConfig): Promise<{
 
 	return {
 		isSuccess: isSuccess,
-		parsedContent: parsedContent,
+		content: parsedContent,
 	};
 }

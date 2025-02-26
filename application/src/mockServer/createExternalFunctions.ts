@@ -1,9 +1,8 @@
-import type { RecordedApiRequests } from ".";
+import type { Har } from "har-format";
+import type { RecordedApiRequests } from "..";
 import type { ExternalFunctions } from "./runApplication";
 
-export function createExternalFunctions(
-	data: RecordedApiRequests,
-): ExternalFunctions {
+export function createExternalFunctions(data: Har): ExternalFunctions {
 	const stringIds = new Set<string>();
 	const numberIds = new Set<number>();
 
@@ -24,9 +23,10 @@ export function createExternalFunctions(
 		}
 	}
 
-	data
+	data.log.entries
 		.flatMap((v) => {
-			return [v.request.body, v.response.body];
+			// Do we need to include the request postData?
+			return [v.request.postData, v.response.content.text];
 		})
 
 		.map((v) => {
@@ -41,8 +41,6 @@ export function createExternalFunctions(
 
 	const uniqueStringIds = Array.from(stringIds);
 	const uniqueNumberIds = Array.from(numberIds);
-
-	console.log(uniqueStringIds);
 
 	let stringIndex = 0;
 	let numberIndex = 0;

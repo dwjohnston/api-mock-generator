@@ -3,7 +3,11 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { format } from "date-fns";
 import path from "node:path";
 
-import type { ConversationHistory, ErrorType, RecordedApiRequests } from ".";
+import type {
+	ConversationHistory,
+	ApiProgramValidationError,
+	RecordedApiRequests,
+} from ".";
 import { error } from "elysia";
 
 type LogPayloads =
@@ -21,7 +25,7 @@ type LogPayloads =
 	  }
 	| {
 			type: "ERROR";
-			payload: ErrorType | Error;
+			payload: ApiProgramValidationError | Error;
 	  };
 
 const baseFolder = "logs";
@@ -113,7 +117,7 @@ type DataDumpPayload = {
 	data: RecordedApiRequests;
 	program: ApiProgram;
 	conversationHistory: ConversationHistory;
-	errors: Array<ErrorType> | null;
+	errors: Array<ApiProgramValidationError> | null;
 };
 
 /**
