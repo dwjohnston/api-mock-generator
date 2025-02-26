@@ -1,0 +1,35 @@
+{
+  "id": "chatcmpl-B54GBsE6YIvaYk5wrCqOdJZwXffzX",
+  "object": "chat.completion",
+  "created": 1740547715,
+  "model": "gpt-4o-2024-08-06",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\"setup\":\"globalObject.todos = [];\",\"routes\":[{\"method\":\"get\",\"url\":\"/todos\",\"fn\":\"() => {\\n  const response = JSON.parse(JSON.stringify(globalObject.todos)); // Deep clone to simulate response\\n  return response;\\n}\"},{\"method\":\"post\",\"url\":\"/todos\",\"fn\":\"({ body }) => {\\n  const id = 's2Jts3j3tpJ7clMZjMYVb';\\n  const newTodo = { id, ...body };\\n  globalObject.todos.push(newTodo);\\n  return new Response(JSON.stringify(newTodo), { status: 201, headers: { 'Content-Type': 'application/json' }});\\n}\"},{\"method\":\"patch\",\"url\":\"/todos/:id\",\"fn\":\"({ params, body }) => {\\n  const todo = globalObject.todos.find(todo => todo.id === params.id);\\n  if (!todo) {\\n    return new Response(JSON.stringify({ error: 'Not found' }), { status: 404, headers: { 'Content-Type': 'application/json' }});\\n  }\\n  Object.assign(todo, body);\\n  return new Response(JSON.stringify(todo), { status: 200, headers: { 'Content-Type': 'application/json' }});\\n}\"}]}",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 2303,
+    "completion_tokens": 269,
+    "total_tokens": 2572,
+    "prompt_tokens_details": {
+      "cached_tokens": 2048,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "service_tier": "default",
+  "system_fingerprint": "fp_eb9dce56a8"
+}

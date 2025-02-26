@@ -1,9 +1,13 @@
 import type { Har } from "har-format";
 import type { ApiProgramValidationError, RecordedApiRequests } from "..";
+import { convertUrl } from "../converters/convertUrl";
+import assert from "node:assert";
+import { asAssertionError } from "../types/typeHelpers";
 
 export async function validateApplication(
 	recordedData: Har,
-	url: string,
+	targetBaseUrl: string,
+	sourceUrl: string | Array<string>,
 ): Promise<Array<ApiProgramValidationError>> {
 	const errs = [] as Array<ApiProgramValidationError>;
 	for (let i = 0; i < recordedData.log.entries.length; i++) {
@@ -12,7 +16,8 @@ export async function validateApplication(
 		const requestPostBody = entry.request.postData?.text ?? null;
 		const responseBody = entry.response.content.text ?? null;
 
-		const result = await fetch(`${url}/${entry.request.url}`, {
+		const url = convertUrl(entry.request.url, targetBaseUrl, sourceUrl);
+		const options = {
 			method: entry.request.method,
 			...(entry.request.method?.toUpperCase() !== "GET"
 				? {
@@ -23,7 +28,9 @@ export async function validateApplication(
 						...(requestPostBody ? { body: requestPostBody } : {}),
 					}
 				: {}),
-		});
+		};
+
+		const result = await fetch(url, options);
 
 		const text = await result.text();
 
@@ -43,10 +50,11 @@ export async function validateApplication(
 			actualJson = null;
 		}
 
-		if (
-			result.status !== entry.response.status ||
-			!Bun.deepEquals(expectedJson, actualJson)
-		) {
+		try {
+			assert.strictEqual(result.status, entry.response.status);
+			assert.deepStrictEqual(expectedJson, actualJson);
+		} catch (err: unknown) {
+			const assertionError = asAssertionError(err);
 			errs.push({
 				requestNumber: i,
 				requestData: {
@@ -62,6 +70,7 @@ export async function validateApplication(
 					statusCode: result.status,
 					body: text,
 				},
+				errorMessage: assertionError.message,
 			});
 			break;
 		}

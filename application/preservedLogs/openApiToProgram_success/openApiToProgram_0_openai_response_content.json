@@ -1,0 +1,20 @@
+{
+  "setup": "globalObject.todos = [];",
+  "routes": [
+    {
+      "method": "get",
+      "url": "/todos",
+      "fn": "() => {\n  const response = JSON.parse(JSON.stringify(globalObject.todos)); // Deep clone to simulate response\n  return response;\n}"
+    },
+    {
+      "method": "post",
+      "url": "/todos",
+      "fn": "({ body }) => {\n  const id = 's2Jts3j3tpJ7clMZjMYVb';\n  const newTodo = { id, ...body };\n  globalObject.todos.push(newTodo);\n  return newTodo;\n}"
+    },
+    {
+      "method": "patch",
+      "url": "/todos/:id",
+      "fn": "({ params, body }) => {\n  const todo = globalObject.todos.find(todo => todo.id === params.id);\n  if (!todo) {\n    return { error: 'Not found' };\n  }\n  Object.assign(todo, body);\n  return todo;\n}"
+    }
+  ]
+}

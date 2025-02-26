@@ -1,0 +1,23 @@
+
+The provided configuration had the following errors: 
+```
+[
+  {
+    "requestNumber": 1,
+    "requestData": {
+      "url": "http://localhost:3000/todos",
+      "method": "POST",
+      "body": "{\n    \"title\": \"foo\", \n    \"completed\": false\n}"
+    },
+    "expectedResponse": {
+      "statusCode": 201,
+      "body": "{\"id\":\"s2Jts3j3tpJ7clMZjMYVb\",\"title\":\"foo\",\"completed\":false}"
+    },
+    "actualResponse": {
+      "statusCode": 200,
+      "body": "{\"id\":\"s2Jts3j3tpJ7clMZjMYVb\",\"title\":\"foo\",\"completed\":false}"
+    },
+    "errorMessage": "Expected values to be strictly equal:\n\n200 !== 201\n"
+  }
+]
+```

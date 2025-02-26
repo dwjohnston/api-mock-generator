@@ -10,12 +10,14 @@ import { zodResponseFormat } from "openai/helpers/zod.mjs";
 import { runApplication } from "../../mockServer/runApplication";
 import { validateApplication } from "../../validators/validateApplication";
 import { createExternalFunctions } from "../../mockServer/createExternalFunctions";
-import type { ApiProgramValidationError } from "../..";
+import { config } from "../../config";
+import { writeTestLog } from "../../testUtils/writeTestLog";
+import { generateFileName } from "../../testUtils/fileNameGenerator";
 
 export async function openApiToProgram(
 	openApiSpec: OpenApiSpec,
 	harFile: Har,
-	validationPort?: number,
+	validationPort = config.defaultValidationPort,
 ): Promise<{
 	isSuccess: boolean;
 	content: ApiProgram;
@@ -44,9 +46,22 @@ export async function openApiToProgram(
 									const errs = await validateApplication(
 										harFile,
 										`http://localhost:${validationPort}`,
+
+										//@ts-expect-error
+										openApiSpec.servers.map((server) => server.url),
 									);
 
 									app.stop(true);
+
+									writeTestLog(
+										generateFileName({
+											iteration: iterationNumber,
+											functionName: "openApiToProgram",
+											description: "api_validation_result",
+											priority: 0,
+										}),
+										errs,
+									);
 
 									if (errs.length > 0) {
 										res(prompts.openapiToProgramErrorFeedbackPrompt(errs));

@@ -80,6 +80,7 @@ export type ApiProgramValidationError = {
 		statusCode: number;
 		body: string;
 	};
+	errorMessage: string;
 };
 
 main();
