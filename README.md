@@ -4,6 +4,22 @@ This is an attempt at creating a mock server based on observing real world appli
 
 See this post for motivation: https://blacksheepcode.com/posts/the_tool_i_want_to_exist
 
+
+## Current status
+
+The end-to-end tooling is not currently working. 
+
+Best thing to be doing is running the tests. 
+
+Populate the .env file at `application/.env` (You need an OpenAPI key)
+
+```
+cd application
+bun install
+bun test
+```
+
+
 ## Recording HAR files 
 
 1. Start [mitmproxy](https://mitmproxy.org/) running
